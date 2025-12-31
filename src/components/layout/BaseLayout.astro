@@ -1,0 +1,81 @@
+---
+const {
+  title = "Hien Nguyen Ngoc | Fullstack Web Developer",
+  description = "High-conversion landing pages with motion and performance in mind for startups and founders.",
+  url = "https://example.com",
+  image = "/og-image.png",
+} = Astro.props;
+
+import "../../styles/global.css";
+import ThemeToggle from "../ThemeToggle.jsx";
+---
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={url} />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={url} />
+    <meta property="og:image" content={image} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={image} />
+  </head>
+  <body class="antialiased">
+    <ThemeToggle client:idle />
+    <slot />
+    <script is:inline>
+      const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+      const revealObserver = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("in");
+              revealObserver.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.2 }
+      );
+
+      document.querySelectorAll(".reveal").forEach((el) => revealObserver.observe(el));
+
+      if (!prefersReduced.matches) {
+        const parallaxItems = Array.from(document.querySelectorAll("[data-parallax]"));
+        let ticking = false;
+
+        const updateParallax = () => {
+          const scrollY = window.scrollY || window.pageYOffset;
+          parallaxItems.forEach((el) => {
+            const speed = parseFloat(el.dataset.parallax || "0.15");
+            el.style.transform = `translate3d(0, ${scrollY * speed}px, 0)`;
+          });
+          ticking = false;
+        };
+
+        const onScroll = () => {
+          if (!ticking) {
+            window.requestAnimationFrame(updateParallax);
+            ticking = true;
+          }
+        };
+
+        updateParallax();
+        window.addEventListener("scroll", onScroll, { passive: true });
+        prefersReduced.addEventListener("change", () => {
+          if (prefersReduced.matches) {
+            parallaxItems.forEach((el) => (el.style.transform = "none"));
+            window.removeEventListener("scroll", onScroll);
+          }
+        });
+      }
+    </script>
+  </body>
+</html>

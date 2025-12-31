@@ -1,0 +1,362 @@
+---
+import BaseLayout from "../components/layout/BaseLayout.astro";
+import MotionHero from "../components/MotionHero.jsx";
+import ThreeBackground from "../components/ThreeBackground.jsx";
+import ThreeScene from "../components/ThreeScene.jsx";
+import mePortrait from "../assets/me.png";
+
+const meta = {
+  title: "Hien Nguyen Ngoc | High-Conversion Landing Pages",
+  description:
+    "SEO-first landing pages with motion, performance, and conversion-focused UX for startups and founders.",
+  url: "../assets/me.png",
+};
+---
+<BaseLayout title={meta.title} description={meta.description} url={meta.url}>
+  <header class="mx-auto flex w-[min(1120px,92vw)] flex-wrap items-center justify-between gap-4 py-7 font-semibold text-ink-2 dark:text-white">
+    <div class="flex items-center gap-3">
+      <div class="grid h-10 w-10 place-items-center rounded-xl bg-gradient-to-br from-lavender-2 to-[#f4f0ff] font-display text-base font-bold text-[#3f2b7b] shadow-ring">
+        HN
+      </div>
+      <div>
+        Hien Nguyen Ngoc
+        <div class="text-xs font-medium text-muted dark:text-slate-300">Fullstack Web Developer</div>
+      </div>
+    </div>
+    <nav class="flex flex-wrap gap-4 text-sm text-muted dark:text-slate-300">
+      <a href="#about">About</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#skills">Skills</a>
+      <a href="#process">Process</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <section class="mx-auto grid w-[min(1120px,92vw)] items-center gap-8 border-y border-white/60 py-10 dark:border-white/10 lg:grid-cols-[0.8fr_1.2fr]">
+    <div class="relative mx-auto w-full max-w-[380px] aspect-[4/5] overflow-hidden bg-transparent p-0 shadow-none lg:mx-0">
+      <img
+        src={mePortrait.src}
+        alt="Hien Nguyen Ngoc portrait"
+        class="absolute inset-0 h-full w-full object-cover object-top mix-blend-normal dark:mix-blend-screen"
+        width="380"
+        height="475"
+        loading="lazy"
+        decoding="async"
+      />
+    </div>
+    <div class="reveal" style="--delay: 80ms;">
+      <p class="text-sm font-semibold uppercase tracking-[0.32em] text-muted">
+        About Me
+      </p>
+      <h2 class="mt-3 font-display text-[clamp(1.8rem,3vw,2.4rem)] text-ink-2 dark:text-white">
+        Hien Nguyen Ngoc, Fullstack Web Developer
+      </h2>
+      <p class="mt-3 text-muted dark:text-slate-200">
+        I build high-performance landing pages with modern frontend stacks, motion-ready UI, and SEO-first structure.
+        Based in Vietnam, I work with startups, founders, and small teams to launch fast and convert better.
+      </p>
+      <div class="mt-4 flex flex-wrap gap-3 text-sm text-muted dark:text-slate-200">
+        <span class="rounded-full border border-[rgba(126,104,212,0.2)] bg-white px-4 py-2 shadow-ring dark:border-white/10 dark:bg-white/10">
+          WordPress
+        </span>
+        <span class="rounded-full border border-[rgba(126,104,212,0.2)] bg-white px-4 py-2 shadow-ring dark:border-white/10 dark:bg-white/10">
+          React
+        </span>
+        <span class="rounded-full border border-[rgba(126,104,212,0.2)] bg-white px-4 py-2 shadow-ring dark:border-white/10 dark:bg-white/10">
+          Next.js
+        </span>
+        <span class="rounded-full border border-[rgba(126,104,212,0.2)] bg-white px-4 py-2 shadow-ring dark:border-white/10 dark:bg-white/10">
+          SEO
+        </span>
+      </div>
+    </div>
+  </section>
+
+  <section class="relative overflow-hidden pb-16 pt-20">
+    <div class="floating-shapes">
+      <div class="shape one"></div>
+      <div class="shape two"></div>
+      <div class="shape three"></div>
+    </div>
+    <!-- Island: small parallax for hero accents without hydrating the whole page -->
+    <MotionHero client:idle />
+    <!-- Island: lightweight 3D background, idle hydrated to avoid blocking LCP -->
+    <div class="absolute inset-0 opacity-60">
+      <ThreeBackground client:idle />
+    </div>
+    <div class="absolute inset-0 opacity-60" data-parallax="0.1"></div>
+    <div class="relative z-10 mx-auto grid w-[min(1120px,92vw)] items-center gap-8 lg:grid-cols-12">
+      <div class="lg:col-span-7 reveal" data-parallax="0.18" style="--delay: 80ms;">
+        <p class="text-sm font-semibold uppercase tracking-[0.32em] text-muted">
+          Fullstack Web Developer
+        </p>
+        <h1 class="mt-4 font-display text-[clamp(2.6rem,4vw,4rem)] leading-tight text-ink-2 dark:text-white">
+          High-Conversion Landing Pages with Motion &amp; Performance
+        </h1>
+        <p class="mt-5 max-w-xl text-base text-muted dark:text-slate-200">
+          I help startups launch faster with clean code, smooth motion, and SEO-ready structure.
+        </p>
+        <div class="mt-7 flex flex-wrap gap-3">
+          <a
+            class="rounded-full border border-transparent bg-gradient-to-br from-lavender-3 to-[#7e68d4] px-6 py-3 font-semibold text-white shadow-[0_14px_30px_rgba(126,104,212,0.35)] transition hover:-translate-y-0.5"
+            href="#contact"
+          >
+            Book a Free 15-min Call
+          </a>
+          <a
+            class="rounded-full border border-[rgba(126,104,212,0.25)] bg-white px-6 py-3 font-semibold text-ink-2 transition hover:-translate-y-0.5 dark:border-white/20 dark:bg-white/10 dark:text-white"
+            href="#pricing"
+          >
+            View Pricing
+          </a>
+        </div>
+      </div>
+      <div class="relative overflow-hidden rounded-3xl bg-white p-7 shadow-[0_20px_60px_rgba(28,22,48,0.12)] dark:bg-white/5 dark:shadow-[0_30px_80px_rgba(4,2,12,0.55)] lg:col-span-5 reveal" data-parallax="0.28" style="--delay: 160ms;">
+        <div class="absolute inset-0 bg-gradient-to-br from-[rgba(215,201,255,0.5)] to-transparent opacity-80"></div>
+        <div class="relative z-10 grid gap-4">
+          <div class="rounded-2xl border border-[rgba(120,92,220,0.15)] bg-white/70 p-4 text-sm text-muted backdrop-blur dark:border-white/10 dark:bg-white/5 dark:text-slate-200">
+            <strong class="block text-base text-ink-2 dark:text-white">Motion-ready builds</strong>
+            Scroll-friendly sections, hover polish, and smooth transitions for premium feel.
+          </div>
+          <div class="rounded-2xl border border-[rgba(120,92,220,0.15)] bg-white/70 p-4 text-sm text-muted backdrop-blur dark:border-white/10 dark:bg-white/5 dark:text-slate-200">
+            <strong class="block text-base text-ink-2 dark:text-white">Performance first</strong>
+            SEO structure + Core Web Vitals to keep your landing page fast and discoverable.
+          </div>
+          <div class="rounded-2xl border border-[rgba(120,92,220,0.15)] bg-white/70 p-4 text-sm text-muted backdrop-blur dark:border-white/10 dark:bg-white/5 dark:text-slate-200">
+            <strong class="block text-base text-ink-2 dark:text-white">Founder-friendly workflow</strong>
+            Clear milestones, fast iterations, and transparent delivery windows.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="about" class="py-16">
+    <div class="mx-auto grid w-[min(1120px,92vw)] gap-7 lg:grid-cols-12">
+      <div class="rounded-[20px] bg-white p-6 shadow-ring dark:bg-white/5 lg:col-span-7 reveal" style="--delay: 80ms;">
+        <h2 class="font-display text-[clamp(1.8rem,3vw,2.6rem)] text-ink-2 dark:text-white">
+          About Hien Nguyen Ngoc
+        </h2>
+        <p class="mt-3 max-w-2xl text-muted dark:text-slate-200">
+          Fullstack developer with experience working with international clients. Specialized in building high-performance
+          landing pages using modern frontend technologies, motion design, and SEO best practices.
+        </p>
+        <p class="mt-3 text-muted dark:text-slate-200">
+          Friendly, responsive, and focused on shipping pages that convert while staying easy to scale.
+        </p>
+      </div>
+      <div class="rounded-[20px] bg-gradient-to-br from-white to-[#f4f0ff] p-6 shadow-ring dark:from-white/10 dark:to-transparent lg:col-span-5 reveal" style="--delay: 160ms;">
+        <h3 class="text-lg font-semibold text-ink-2 dark:text-white">Profile Snapshot</h3>
+        <div class="mt-4 grid gap-2 text-sm text-muted dark:text-slate-200">
+          <div><strong class="text-ink-2 dark:text-white">Location:</strong> Vietnam</div>
+          <div><strong class="text-ink-2 dark:text-white">Role:</strong> Fullstack Web Developer</div>
+          <div><strong class="text-ink-2 dark:text-white">Expertise:</strong> WordPress, React, Next.js, Tailwind, SEO</div>
+          <div><strong class="text-ink-2 dark:text-white">Focus:</strong> Landing pages with motion and performance</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="three" class="py-16">
+    <div class="mx-auto grid w-[min(1120px,92vw)] items-center gap-8 lg:grid-cols-12">
+      <div class="lg:col-span-6 reveal" data-parallax="0.16" style="--delay: 80ms;">
+        <h2 class="font-display text-[clamp(1.8rem,3vw,2.6rem)] text-ink-2 dark:text-white">
+          3D Motion Preview
+        </h2>
+        <p class="mt-3 text-muted dark:text-slate-200">
+          Lightweight geometry-driven 3D elements add depth without hurting performance. This module loads only when
+          visible to preserve Core Web Vitals.
+        </p>
+        <ul class="mt-4 grid gap-2 text-sm text-muted dark:text-slate-200">
+          <li>Simple shapes and slow rotation</li>
+          <li>Lazy-loaded via Astro islands</li>
+          <li>Reduced motion respected on mobile</li>
+        </ul>
+      </div>
+      <div class="relative min-h-[320px] overflow-hidden rounded-3xl border border-white/10 bg-[#0f0b1f] shadow-[0_30px_80px_rgba(8,6,18,0.5)] lg:col-span-6 reveal" data-parallax="0.26" style="--delay: 160ms;">
+        <img
+          src="/three-fallback.svg"
+          alt="3D preview placeholder"
+          class="absolute inset-0 h-full w-full object-cover"
+          loading="lazy"
+        />
+        <!-- Island: 3D scene only renders when visible to protect performance. -->
+        <div class="absolute inset-0">
+          <ThreeScene client:visible />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="pricing" class="py-16">
+    <div class="mx-auto w-[min(1120px,92vw)]">
+      <h2 class="font-display text-[clamp(1.8rem,3vw,2.6rem)] text-ink-2 dark:text-white">
+        Services &amp; Pricing
+      </h2>
+      <p class="mt-3 max-w-2xl text-muted dark:text-slate-200">
+        Clear packages for founders and teams who need landing pages that load fast, look premium, and convert.
+      </p>
+      <div class="mt-7 grid gap-6 md:grid-cols-3">
+        <article class="rounded-3xl bg-white p-6 shadow-[0_12px_40px_rgba(30,20,60,0.1)] transition hover:-translate-y-1 dark:bg-white/5 dark:shadow-[0_20px_60px_rgba(6,4,18,0.5)] reveal" style="--delay: 80ms;">
+          <div class="text-xs font-semibold uppercase tracking-[0.08em] text-[#6f5fd4]">Basic</div>
+          <h3 class="mt-2 text-lg font-semibold text-ink-2 dark:text-white">
+            Fast start for MVP &amp; small launches
+          </h3>
+          <ul class="mt-4 grid gap-2 text-sm text-muted dark:text-slate-200">
+            <li>1 landing page</li>
+            <li>Clean UI design</li>
+            <li>Basic motion (hover / scroll)</li>
+            <li>Mobile responsive</li>
+            <li>Basic SEO</li>
+            <li>Deploy &amp; handoff</li>
+          </ul>
+          <div class="mt-4 text-2xl font-bold text-ink-2 dark:text-white">$45 – $125</div>
+          <div class="text-sm text-muted dark:text-slate-200">Delivery: 1–7 days</div>
+        </article>
+
+        <article class="rounded-3xl border border-[rgba(126,104,212,0.4)] bg-white p-6 shadow-glow transition hover:-translate-y-1 dark:border-white/15 dark:bg-white/10 dark:shadow-[0_30px_80px_rgba(90,60,160,0.2)] reveal" style="--delay: 160ms;">
+          <div class="text-xs font-semibold uppercase tracking-[0.08em] text-[#6f5fd4]">Most Popular</div>
+          <h3 class="mt-2 text-lg font-semibold text-ink-2 dark:text-white">
+            Conversion-focused landing for serious products
+          </h3>
+          <ul class="mt-4 grid gap-2 text-sm text-muted dark:text-slate-200">
+            <li>Conversion-optimized layout</li>
+            <li>Advanced motion &amp; light 3D</li>
+            <li>Full on-page SEO structure</li>
+            <li>Core Web Vitals optimization</li>
+            <li>Contact form &amp; analytics tracking</li>
+            <li>1 major + 2 minor revisions</li>
+          </ul>
+          <div class="mt-4 text-2xl font-bold text-ink-2 dark:text-white">$120 – $360</div>
+          <div class="text-sm text-muted dark:text-slate-200">Delivery: 7–21 days</div>
+        </article>
+
+        <article class="rounded-3xl bg-white p-6 shadow-[0_12px_40px_rgba(30,20,60,0.1)] transition hover:-translate-y-1 dark:bg-white/5 dark:shadow-[0_20px_60px_rgba(6,4,18,0.5)] reveal" style="--delay: 240ms;">
+          <div class="text-xs font-semibold uppercase tracking-[0.08em] text-[#6f5fd4]">Premium</div>
+          <h3 class="mt-2 text-lg font-semibold text-ink-2 dark:text-white">
+            Custom 3D motion &amp; scalable landing system
+          </h3>
+          <ul class="mt-4 grid gap-2 text-sm text-muted dark:text-slate-200">
+            <li>Custom 3D animation</li>
+            <li>Funnel &amp; copy structure</li>
+            <li>A/B testing concept</li>
+            <li>Advanced performance &amp; SEO</li>
+            <li>30-day post-launch support</li>
+          </ul>
+          <div class="mt-4 text-2xl font-bold text-ink-2 dark:text-white">$360 – $999</div>
+          <div class="text-sm text-muted dark:text-slate-200">Delivery: 14–60 days</div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="skills" class="py-16">
+    <div class="mx-auto w-[min(1120px,92vw)]">
+      <h2 class="font-display text-[clamp(1.8rem,3vw,2.6rem)] text-ink-2 dark:text-white">
+        Skills &amp; Stack
+      </h2>
+      <p class="mt-3 max-w-2xl text-muted dark:text-slate-200">
+        A modern stack focused on performance, motion, and SEO-first delivery.
+      </p>
+      <div class="mt-6 flex flex-wrap gap-3 reveal" style="--delay: 120ms;">
+        {[
+          "JavaScript",
+          "React",
+          "Astro",
+          "Tailwind",
+          "WordPress",
+          "SEO",
+          "Performance",
+          "3D Motion",
+        ].map((skill) => (
+          <span class="rounded-full border border-[rgba(126,104,212,0.2)] bg-white px-4 py-2 text-sm text-ink-2 shadow-ring dark:border-white/10 dark:bg-white/10 dark:text-white">
+            {skill}
+          </span>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="py-16">
+    <div class="mx-auto w-[min(1120px,92vw)]">
+      <h2 class="font-display text-[clamp(1.8rem,3vw,2.6rem)] text-ink-2 dark:text-white">
+        Experience &amp; Trust
+      </h2>
+      <p class="mt-3 max-w-2xl text-muted dark:text-slate-200">
+        Proven delivery across product launches and improvements, with a focus on speed, clarity, and results.
+      </p>
+      <div class="mt-6 grid gap-4 md:grid-cols-3">
+        <div class="rounded-[20px] border border-[rgba(120,92,220,0.15)] bg-white p-5 text-sm text-muted dark:border-white/10 dark:bg-white/5 dark:text-slate-200 reveal" style="--delay: 80ms;">
+          Freelance developer working with domestic &amp; international clients to ship landing pages and marketing sites.
+        </div>
+        <div class="rounded-[20px] border border-[rgba(120,92,220,0.15)] bg-white p-5 text-sm text-muted dark:border-white/10 dark:bg-white/5 dark:text-slate-200 reveal" style="--delay: 160ms;">
+          WordPress development and customization for fast-turn projects and content-driven teams.
+        </div>
+        <div class="rounded-[20px] border border-[rgba(120,92,220,0.15)] bg-white p-5 text-sm text-muted dark:border-white/10 dark:bg-white/5 dark:text-slate-200 reveal" style="--delay: 240ms;">
+          Fixing and improving existing codebases (Next.js, React, Spring Boot) to recover performance and UX.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="process" class="py-16">
+    <div class="mx-auto w-[min(1120px,92vw)]">
+      <h2 class="font-display text-[clamp(1.8rem,3vw,2.6rem)] text-ink-2 dark:text-white">
+        Process
+      </h2>
+      <p class="mt-3 max-w-2xl text-muted dark:text-slate-200">
+        A lean, 3-step workflow built to get you launched fast without sacrificing quality.
+      </p>
+      <div class="mt-6 grid gap-5 md:grid-cols-3">
+        <article class="rounded-[20px] bg-gradient-to-br from-white to-[#f5f1ff] p-5 shadow-ring dark:from-white/10 dark:to-transparent reveal" style="--delay: 80ms;">
+          <div class="mb-3 grid h-11 w-11 place-items-center rounded-xl bg-[rgba(126,104,212,0.14)] font-semibold text-[#5237aa]">
+            01
+          </div>
+          <h3 class="text-base font-semibold text-ink-2 dark:text-white">Audit &amp; Planning</h3>
+          <p class="mt-2 text-sm text-muted dark:text-slate-200">
+            Align goals, review positioning, and outline the conversion flow before design starts.
+          </p>
+        </article>
+        <article class="rounded-[20px] bg-gradient-to-br from-white to-[#f5f1ff] p-5 shadow-ring dark:from-white/10 dark:to-transparent reveal" style="--delay: 160ms;">
+          <div class="mb-3 grid h-11 w-11 place-items-center rounded-xl bg-[rgba(126,104,212,0.14)] font-semibold text-[#5237aa]">
+            02
+          </div>
+          <h3 class="text-base font-semibold text-ink-2 dark:text-white">Build</h3>
+          <p class="mt-2 text-sm text-muted dark:text-slate-200">
+            Design and develop a responsive UI with motion-ready components and clean architecture.
+          </p>
+        </article>
+        <article class="rounded-[20px] bg-gradient-to-br from-white to-[#f5f1ff] p-5 shadow-ring dark:from-white/10 dark:to-transparent reveal" style="--delay: 240ms;">
+          <div class="mb-3 grid h-11 w-11 place-items-center rounded-xl bg-[rgba(126,104,212,0.14)] font-semibold text-[#5237aa]">
+            03
+          </div>
+          <h3 class="text-base font-semibold text-ink-2 dark:text-white">Launch</h3>
+          <p class="mt-2 text-sm text-muted dark:text-slate-200">
+            Deploy, validate Core Web Vitals, and plan post-launch optimization.
+          </p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" class="py-16">
+    <div class="mx-auto w-[min(1120px,92vw)]">
+      <div class="rounded-[30px] bg-gradient-to-br from-[#f7f2ff] to-[#eef5ff] p-12 text-center shadow-ring dark:from-white/10 dark:to-transparent reveal">
+        <h2 class="font-display text-[clamp(1.8rem,3vw,2.6rem)] text-ink-2 dark:text-white">
+          Ready to launch or improve your landing page?
+        </h2>
+        <div class="mt-6 flex justify-center">
+          <a
+            class="rounded-full border border-transparent bg-gradient-to-br from-lavender-3 to-[#7e68d4] px-7 py-3 font-semibold text-white shadow-[0_14px_30px_rgba(126,104,212,0.35)] transition hover:-translate-y-0.5"
+            href="mailto:hello@example.com"
+          >
+            Book a Free 15-Minute Call
+          </a>
+        </div>
+        <p class="mt-3 text-sm text-muted dark:text-slate-200">
+          Early-client pricing available for a limited time.
+        </p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
