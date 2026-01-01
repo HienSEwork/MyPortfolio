@@ -8,6 +8,7 @@ const {
 
 import "../../styles/global.css";
 import ThemeToggle from "../ThemeToggle.jsx";
+import ThreeBackground from "../ThreeBackground.jsx";
 ---
 <!DOCTYPE html>
 <html lang="en">
@@ -28,8 +29,13 @@ import ThemeToggle from "../ThemeToggle.jsx";
     <meta name="twitter:image" content={image} />
   </head>
   <body class="antialiased">
+    <div class="fixed inset-0 z-0 opacity-60" data-parallax="0.06">
+      <ThreeBackground client:idle />
+    </div>
     <ThemeToggle client:idle />
-    <slot />
+    <div class="relative z-10">
+      <slot />
+    </div>
     <script is:inline>
       const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)");
 
@@ -55,7 +61,7 @@ import ThemeToggle from "../ThemeToggle.jsx";
           const scrollY = window.scrollY || window.pageYOffset;
           parallaxItems.forEach((el) => {
             const speed = parseFloat(el.dataset.parallax || "0.15");
-            el.style.transform = `translate3d(0, ${scrollY * speed}px, 0)`;
+            el.style.setProperty("--parallax-y", `${scrollY * speed}px`);
           });
           ticking = false;
         };
@@ -71,7 +77,7 @@ import ThemeToggle from "../ThemeToggle.jsx";
         window.addEventListener("scroll", onScroll, { passive: true });
         prefersReduced.addEventListener("change", () => {
           if (prefersReduced.matches) {
-            parallaxItems.forEach((el) => (el.style.transform = "none"));
+            parallaxItems.forEach((el) => el.style.setProperty("--parallax-y", "0px"));
             window.removeEventListener("scroll", onScroll);
           }
         });
