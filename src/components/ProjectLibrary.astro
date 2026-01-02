@@ -1,0 +1,84 @@
+---
+import type { Project } from "../data/projects";
+
+type Props = {
+  projects: Project[];
+  showLinks?: boolean;
+};
+
+const { projects, showLinks = true } = Astro.props;
+
+const categoryAccents: Record<Project["category"], string> = {
+  Business: "148 120 255",
+  "E-commerce": "106 211 106",
+  Game: "255 156 120",
+  Creative: "110 210 255",
+};
+
+const deliveryLabel = (type?: Project["deliveryType"]) => {
+  if (type === "similar") return "Template";
+  if (type === "done") return "Completed";
+  return "";
+};
+
+const getHost = (url: string) => {
+  try {
+    return new URL(url).hostname.replace(/^www\./, "");
+  } catch {
+    return url;
+  }
+};
+---
+
+<div class="gallery-shell">
+  <div class="gallery-grid">
+    {projects.map((project, index) => (
+      <article
+        class={`gallery-card reveal ${
+          project.layout && project.layout !== "base" ? `size-${project.layout}` : ""
+        }`}
+        style={`--delay: ${120 + index * 90}ms; --float-delay: ${index * 0.6}s; --accent: ${
+          categoryAccents[project.category]
+        };`}
+      >
+        <div class="gallery-media">
+          {project.imageUrl ? (
+            <img src={project.imageUrl} alt={project.projectName} loading="lazy" decoding="async" />
+          ) : null}
+        </div>
+        <div class="gallery-overlay">
+          <div class="gallery-meta">
+            <div class="gallery-kicker">
+              <p class="gallery-tag">{project.category}</p>
+              <span class="gallery-host">{getHost(project.websiteURL)}</span>
+            </div>
+            <h3>{project.projectName}</h3>
+            <p class="gallery-description">{project.description}</p>
+            <div class="gallery-tech">
+              {project.technologies.map((tech) => (
+                <span class="gallery-chip">{tech}</span>
+              ))}
+            </div>
+            <p class="gallery-role">{project.role}</p>
+          </div>
+        </div>
+        {project.deliveryType ? (
+          <span class={`gallery-status ${project.deliveryType === "similar" ? "is-similar" : ""}`}>
+            {deliveryLabel(project.deliveryType)}
+          </span>
+        ) : null}
+        {showLinks ? (
+          <a
+            class="gallery-link"
+            href={project.websiteURL}
+            target="_blank"
+            rel="noreferrer"
+            aria-label={`Open ${project.projectName}`}
+          >
+            View live site
+          </a>
+        ) : null}
+      </article>
+    ))}
+  </div>
+</div>

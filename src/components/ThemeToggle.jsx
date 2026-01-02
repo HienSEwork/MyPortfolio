@@ -4,9 +4,7 @@ const getPreferredTheme = () => {
   if (typeof window === "undefined") return "light";
   const stored = window.localStorage.getItem("theme");
   if (stored === "light" || stored === "dark") return stored;
-  return window.matchMedia("(prefers-color-scheme: dark)").matches
-    ? "dark"
-    : "light";
+  return "dark";
 };
 
 const ThemeToggle = () => {

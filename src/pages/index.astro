@@ -1,7 +1,8 @@
 ---
 import BaseLayout from "../components/layout/BaseLayout.astro";
-import MotionHero from "../components/MotionHero.jsx";
 import mePortrait from "../assets/me.png";
+import ProjectLibrary from "../components/ProjectLibrary.astro";
+import { projectLibrary } from "../data/projects";
 
 const meta = {
   title: "Hien Nguyen Ngoc | High-Conversion Landing Pages",
@@ -105,25 +106,19 @@ const groupedSkills = skillOrder.map((group) => {
     .filter(Boolean);
   return { title: group.title, items };
 });
+
+const doneProjects = projectLibrary.filter((project) => project.deliveryType !== "similar");
+const templateProjects = projectLibrary.filter((project) => project.deliveryType === "similar");
 ---
 <BaseLayout title={meta.title} description={meta.description} url={meta.url}>
-  <header class="mx-auto flex w-[min(1120px,92vw)] flex-wrap items-center justify-between gap-4 py-7 font-semibold text-ink-2 dark:text-white">
-    <div class="flex items-center gap-3">
-      <div class="grid h-10 w-10 place-items-center rounded-xl bg-gradient-to-br from-lavender-2 to-[#f4f0ff] font-display text-base font-bold text-[#3f2b7b] shadow-ring">
-        HN
-      </div>
-      <div>
-        Hien Nguyen Ngoc
-        <div class="text-xs font-medium text-muted dark:text-slate-300">Fullstack Web Developer</div>
-      </div>
-    </div>
-    <nav class="flex flex-wrap gap-4 text-sm text-muted dark:text-slate-300">
+  <header class="mx-auto flex w-[min(1120px,92vw)] justify-center pt-6">
+    <nav class="nav-glow flex flex-wrap items-center gap-6 rounded-full border border-white/20 bg-white/90 px-8 py-3 text-sm font-semibold text-ink-2 shadow-[0_16px_40px_rgba(20,16,40,0.12)] dark:border-white/10 dark:bg-white/5 dark:text-white">
       <a href="#about">About</a>
+      <a href="#projects">Projects</a>
       <a href="#skills">Skills</a>
+      <a href="#portfolio">Library</a>
       <a href="#pricing">Pricing</a>
-      <a href="#portfolio">Projects</a>
       <a href="#contact">Contact</a>
-      <a href="#other-skills">Other Skills</a>
     </nav>
   </header>
 
@@ -140,15 +135,13 @@ const groupedSkills = skillOrder.map((group) => {
       />
     </div>
     <div class="reveal" style="--delay: 80ms;">
-      <p class="text-sm font-semibold uppercase tracking-[0.32em] text-muted">
-        About Me
-      </p>
-      <h2 class="mt-3 font-display text-[clamp(1.8rem,3vw,2.4rem)] text-ink-2 dark:text-white">
+      <h2 class="section-title font-display text-[clamp(1.8rem,3vw,2.4rem)] text-ink-2 dark:text-white">
         Hien Nguyen Ngoc, Fullstack Web Developer
       </h2>
-      <p class="mt-3 text-muted dark:text-slate-200">
-        I build high-performance landing pages with modern frontend stacks, motion-ready UI, and SEO-first structure.
-        Based in Vietnam, I work with startups, founders, and small teams to launch fast and convert better.
+      <p class="mt-4 text-muted dark:text-slate-200">
+        I build conversion-focused landing pages for startups and small teams, shipping fast with clean code, SEO-ready
+        structure, and performance tuning. I handle end-to-end delivery from UI design to launch, helping clients go live
+        quickly and convert more visitors.
       </p>
     </div>
   </section>
@@ -159,22 +152,13 @@ const groupedSkills = skillOrder.map((group) => {
       <div class="shape two"></div>
       <div class="shape three"></div>
     </div>
-    <!-- Island: small parallax for hero accents without hydrating the whole page -->
-    <MotionHero client:idle />
-    <div class="absolute inset-0 opacity-60" data-parallax="0.1"></div>
+    <div class="absolute inset-0 opacity-60"></div>
     <div class="relative z-10 mx-auto w-[min(1120px,92vw)]">
-      <div class="rounded-[34px] border border-white/20 bg-white/10 p-8 shadow-[0_26px_80px_rgba(22,16,40,0.35)] backdrop-blur-sm dark:border-white/10 dark:bg-white/5 lg:p-10">
-        <div class="grid items-center gap-10 lg:grid-cols-[1.15fr_0.85fr]">
-          <div class="min-w-0 reveal" data-parallax="0.18" style="--delay: 80ms;">
-            <p class="text-xs font-semibold uppercase tracking-[0.45em] text-muted">
-              Fullstack Web Developer
-            </p>
-            <h1 class="mt-4 font-display text-[clamp(2.6rem,4.2vw,4.2rem)] leading-tight text-ink-2 dark:text-white">
+      <div class="grid items-center gap-10 lg:grid-cols-[1.15fr_0.85fr]">
+        <div class="min-w-0 reveal" style="--delay: 80ms;">
+            <h1 class="section-title font-display text-[clamp(2.6rem,4.2vw,4.2rem)] leading-tight text-ink-2 dark:text-white">
               High-Conversion Landing Pages with Motion &amp; Performance
             </h1>
-            <p class="mt-5 max-w-xl text-base text-muted dark:text-slate-200">
-              I help startups launch faster with clean code, smooth motion, and SEO-ready structure.
-            </p>
               <div class="mt-6 flex flex-wrap items-center gap-4">
                 <a
                   class="rounded-full border border-transparent bg-gradient-to-br from-lavender-3 to-[#7e68d4] px-6 py-3 font-semibold text-white shadow-[0_14px_30px_rgba(126,104,212,0.35)] transition hover:-translate-y-0.5"
@@ -210,59 +194,79 @@ const groupedSkills = skillOrder.map((group) => {
               </div>
             </div>
           </div>
-          <div class="relative min-w-0 w-full lg:max-w-[420px] lg:justify-self-end reveal" data-parallax="0.28" style="--delay: 160ms;">
+          <div class="relative min-w-0 w-full lg:max-w-[420px] lg:justify-self-end reveal" style="--delay: 160ms;">
             <div class="absolute -right-6 -top-6 h-20 w-20 rounded-full bg-[radial-gradient(circle_at_center,rgba(167,139,250,0.45),transparent_60%)] blur-xl"></div>
             <div class="grid gap-4">
-              <div class="rounded-3xl border border-white/25 bg-white/70 p-5 text-sm text-muted shadow-[0_18px_40px_rgba(20,14,38,0.25)] backdrop-blur dark:border-white/10 dark:bg-white/5 dark:text-slate-200">
+              <div class="rounded-3xl border border-white/15 bg-white/60 p-5 text-sm text-muted shadow-[0_12px_30px_rgba(20,14,38,0.18)] dark:border-white/10 dark:bg-white/5 dark:text-slate-200">
                 <span class="mb-2 inline-flex h-8 w-8 items-center justify-center rounded-full bg-[#7e68d4]/20 text-xs font-semibold text-[#e6ddff]">01</span>
                 <strong class="block text-base text-ink-2 dark:text-white">Motion-ready builds</strong>
                 Scroll-friendly sections, hover polish, and smooth transitions for premium feel.
               </div>
-              <div class="rounded-3xl border border-white/25 bg-white/70 p-5 text-sm text-muted shadow-[0_18px_40px_rgba(20,14,38,0.25)] backdrop-blur dark:border-white/10 dark:bg-white/5 dark:text-slate-200">
+              <div class="rounded-3xl border border-white/15 bg-white/60 p-5 text-sm text-muted shadow-[0_12px_30px_rgba(20,14,38,0.18)] dark:border-white/10 dark:bg-white/5 dark:text-slate-200">
                 <span class="mb-2 inline-flex h-8 w-8 items-center justify-center rounded-full bg-[#7e68d4]/20 text-xs font-semibold text-[#e6ddff]">02</span>
                 <strong class="block text-base text-ink-2 dark:text-white">Performance first</strong>
                 SEO structure + Core Web Vitals to keep your landing page fast and discoverable.
               </div>
-              <div class="rounded-3xl border border-white/25 bg-white/70 p-5 text-sm text-muted shadow-[0_18px_40px_rgba(20,14,38,0.25)] backdrop-blur dark:border-white/10 dark:bg-white/5 dark:text-slate-200">
+              <div class="rounded-3xl border border-white/15 bg-white/60 p-5 text-sm text-muted shadow-[0_12px_30px_rgba(20,14,38,0.18)] dark:border-white/10 dark:bg-white/5 dark:text-slate-200">
                 <span class="mb-2 inline-flex h-8 w-8 items-center justify-center rounded-full bg-[#7e68d4]/20 text-xs font-semibold text-[#e6ddff]">03</span>
                 <strong class="block text-base text-ink-2 dark:text-white">Founder-friendly workflow</strong>
                 Clear milestones, fast iterations, and transparent delivery windows.
               </div>
             </div>
           </div>
-        </div>
       </div>
     </div>
   </section>
 
   <section id="about" class="py-16 overflow-visible">
     <div class="mx-auto w-[min(1120px,92vw)]">
-      <div class="grid gap-6 rounded-[30px] border border-white/15 bg-white/10 p-8 shadow-[0_20px_60px_rgba(24,18,44,0.2)] backdrop-blur-sm dark:border-white/10 dark:bg-white/5 lg:grid-cols-[1.1fr_0.9fr] lg:p-10 reveal" style="--delay: 80ms;">
+      <div class="grid gap-10 lg:grid-cols-[1.1fr_0.9fr] items-start">
         <div>
-          <p class="text-xs font-semibold uppercase tracking-[0.35em] text-muted">About the Service</p>
-          <h2 class="mt-3 font-display text-[clamp(1.9rem,3.2vw,2.7rem)] text-ink-2 dark:text-white">
+          <h2 class="section-title font-display text-[clamp(1.9rem,3.2vw,2.7rem)] text-ink-2 dark:text-white">
             A focused delivery model for fast, premium launches.
           </h2>
-          <p class="mt-4 max-w-2xl text-muted dark:text-slate-200">
-            Fullstack development focused on high-performance landing pages with modern frontend stacks, motion-ready UI,
-            and SEO-first structure.
-          </p>
-          <p class="mt-3 text-muted dark:text-slate-200">
-            Clear process, fast iteration, and conversion-minded delivery for product launches and marketing sites.
-          </p>
+          <div class="mt-6 grid gap-4 text-sm text-muted dark:text-slate-200">
+            <div class="flex gap-4">
+              <span class="inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/30 bg-white/70 text-sm font-semibold text-ink-2 shadow-[0_10px_24px_rgba(20,14,38,0.12)] dark:border-white/10 dark:bg-white/5 dark:text-white">01</span>
+              <div>
+                <strong class="block text-base text-ink-2 dark:text-white">Structured delivery</strong>
+                Scope clarity, milestones, and fast feedback loops.
+              </div>
+            </div>
+            <div class="flex gap-4">
+              <span class="inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/30 bg-white/70 text-sm font-semibold text-ink-2 shadow-[0_10px_24px_rgba(20,14,38,0.12)] dark:border-white/10 dark:bg-white/5 dark:text-white">02</span>
+              <div>
+                <strong class="block text-base text-ink-2 dark:text-white">Conversion-first UI</strong>
+                Layouts and copy flow designed to guide user action.
+              </div>
+            </div>
+            <div class="flex gap-4">
+              <span class="inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/30 bg-white/70 text-sm font-semibold text-ink-2 shadow-[0_10px_24px_rgba(20,14,38,0.12)] dark:border-white/10 dark:bg-white/5 dark:text-white">03</span>
+              <div>
+                <strong class="block text-base text-ink-2 dark:text-white">Performance tuned</strong>
+                Core Web Vitals, image strategy, and clean structure.
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="grid gap-4 text-sm text-muted dark:text-slate-200">
-          <div class="rounded-2xl border border-white/20 bg-white/60 p-4 dark:border-white/10 dark:bg-white/5">
-            <strong class="block text-base text-ink-2 dark:text-white">Structured delivery</strong>
-            Scope clarity, milestones, and fast feedback loops.
+        <div class="grid gap-6 text-sm text-muted dark:text-slate-200">
+          <div class="flex flex-col gap-2">
+            <span class="text-xs uppercase tracking-[0.2em] text-muted">Delivery focus</span>
+            <p>
+              Clear planning, weekly updates, and fast iterations that keep launches on track.
+            </p>
           </div>
-          <div class="rounded-2xl border border-white/20 bg-white/60 p-4 dark:border-white/10 dark:bg-white/5">
-            <strong class="block text-base text-ink-2 dark:text-white">Conversion-first UI</strong>
-            Layouts and copy flow designed to guide user action.
+          <div class="flex flex-col gap-2">
+            <span class="text-xs uppercase tracking-[0.2em] text-muted">Performance</span>
+            <p>
+              SEO-first structure, image strategy, and Core Web Vitals optimization built in.
+            </p>
           </div>
-          <div class="rounded-2xl border border-white/20 bg-white/60 p-4 dark:border-white/10 dark:bg-white/5">
-            <strong class="block text-base text-ink-2 dark:text-white">Performance tuned</strong>
-            Core Web Vitals, image strategy, and clean structure.
+          <div class="flex flex-col gap-2">
+            <span class="text-xs uppercase tracking-[0.2em] text-muted">Results</span>
+            <p>
+              Conversion-driven layouts that guide user action and build trust quickly.
+            </p>
           </div>
         </div>
       </div>
@@ -271,17 +275,29 @@ const groupedSkills = skillOrder.map((group) => {
 
   
 
+  <section id="projects" class="py-16">
+    <div class="mx-auto w-[min(1120px,92vw)]">
+      <h2 class="section-title font-display text-[clamp(1.9rem,3.2vw,2.7rem)] text-ink-2 dark:text-white">
+        Completed Projects
+      </h2>
+      <div class="mt-6 flex flex-wrap gap-3 text-xs font-semibold uppercase tracking-[0.2em] text-ink-2 dark:text-white">
+        <button class="project-tab is-active" type="button">All</button>
+        <button class="project-tab" type="button">Business</button>
+        <button class="project-tab" type="button">E-commerce</button>
+        <button class="project-tab" type="button">Creative</button>
+        <button class="project-tab" type="button">Game</button>
+      </div>
+      <div class="mt-8">
+        <ProjectLibrary projects={doneProjects} showLinks={false} />
+      </div>
+    </div>
+  </section>
+
   <section id="skills" class="py-14">
     <div class="mx-auto w-[min(1120px,92vw)]">
-      <div class="relative overflow-hidden rounded-[28px] border border-white/20 bg-gradient-to-br from-white/10 via-white/5 to-transparent p-7 shadow-[0_24px_60px_rgba(30,20,60,0.3)] dark:border-white/10">
-        <div class="absolute -right-16 -top-16 h-52 w-52 rounded-full bg-[radial-gradient(circle_at_center,rgba(167,139,250,0.3),transparent_60%)] blur-2xl"></div>
-        <div class="absolute -left-10 bottom-0 h-40 w-40 rounded-full bg-[radial-gradient(circle_at_center,rgba(125,211,252,0.18),transparent_60%)] blur-2xl"></div>
-        <h2 class="font-display text-[clamp(1.8rem,3vw,2.6rem)] text-ink-2 dark:text-white">
-          Skills &amp; Stack
-        </h2>
-      <p class="mt-3 max-w-2xl text-muted dark:text-slate-200">
-        Core development skills presented with clean, icon-style badges for instant credibility.
-      </p>
+      <h2 class="section-title font-display text-[clamp(1.8rem,3vw,2.6rem)] text-ink-2 dark:text-white">
+        Skills &amp; Stack
+      </h2>
       <div class="mt-8 grid gap-8 reveal" style="--delay: 120ms;">
         {groupedSkills.map((group) =>
           group.items.length ? (
@@ -296,10 +312,11 @@ const groupedSkills = skillOrder.map((group) => {
               <div class="flex flex-wrap justify-center gap-8">
                 {group.items.map((skill) => (
                   <div
-                    class={`group h-24 w-24 cursor-pointer rounded-full border border-white/30 bg-white/80 p-3 shadow-[0_18px_36px_rgba(40,25,80,0.28)] transition hover:-translate-y-1 hover:shadow-[0_26px_50px_rgba(40,25,80,0.42)] dark:border-white/10 dark:bg-white/10 ${
+                    class={`group relative h-24 w-24 cursor-pointer rounded-full p-[1px] shadow-[0_18px_36px_rgba(40,25,80,0.28)] transition hover:-translate-y-1 hover:shadow-[0_26px_50px_rgba(40,25,80,0.42)] skill-ring ${
                       sparkleSet.has(normalize(skill.label)) ? "sparkle-ring" : ""
                     }`}
                   >
+                    <div class="relative h-full w-full rounded-full bg-transparent p-[1px] skill-core">
                     <img
                       src={skill.src}
                       alt={displayNames[normalize(skill.label)] ?? skill.label}
@@ -308,28 +325,48 @@ const groupedSkills = skillOrder.map((group) => {
                       loading="lazy"
                       decoding="async"
                     />
+                    </div>
                   </div>
                 ))}
               </div>
             </div>
           ) : null
         )}
+    </div>
+  </section>
+
+  <section id="portfolio" class="py-16">
+    <div class="mx-auto w-[min(1120px,92vw)]">
+      <h2 class="section-title font-display text-[clamp(1.8rem,3vw,2.6rem)] text-ink-2 dark:text-white">
+        Project Library
+      </h2>
+      <div class="mt-8">
+        <h3 class="text-xs font-semibold uppercase tracking-[0.3em] text-muted dark:text-slate-300">
+          Completed Projects
+        </h3>
+        <div class="mt-6">
+          <ProjectLibrary projects={doneProjects} />
+        </div>
       </div>
+      <div class="mt-12">
+        <h3 class="text-xs font-semibold uppercase tracking-[0.3em] text-muted dark:text-slate-300">
+          Template Projects
+        </h3>
+        <div class="mt-6">
+          <ProjectLibrary projects={templateProjects} />
+        </div>
       </div>
     </div>
   </section>
 
   <section id="pricing" class="py-16">
     <div class="mx-auto w-[min(1120px,92vw)]">
-      <h2 class="font-display text-[clamp(1.8rem,3vw,2.6rem)] text-ink-2 dark:text-white">
+      <h2 class="section-title font-display text-[clamp(1.8rem,3vw,2.6rem)] text-ink-2 dark:text-white">
         Services &amp; Pricing
       </h2>
-      <p class="mt-3 max-w-2xl text-muted dark:text-slate-200">
-        Clear packages for founders and teams who need landing pages that load fast, look premium, and convert.
-      </p>
       <div class="mt-7 grid gap-6 md:grid-cols-3 items-stretch">
-        <article class="rounded-3xl bg-white p-6 min-h-[520px] h-full flex flex-col shadow-[0_12px_40px_rgba(30,20,60,0.1)] transition hover:-translate-y-1 dark:bg-white/5 dark:shadow-[0_20px_60px_rgba(6,4,18,0.5)] reveal" style="--delay: 80ms;">
-          <div class="text-xs font-semibold uppercase tracking-[0.08em] text-[#6f5fd4]">Basic</div>
+        <article class="pricing-card reveal" style="--delay: 80ms;">
+          <div class="pricing-tier text-[#6f5fd4]">Basic</div>
           <h3 class="mt-4 text-lg font-semibold text-ink-2 dark:text-white">
             Fast start for MVP &amp; small launches
           </h3>
@@ -344,34 +381,35 @@ const groupedSkills = skillOrder.map((group) => {
           <div class="mt-auto pt-6">
             <div class="text-2xl font-bold text-ink-2 dark:text-white">$45 - $125</div>
             <div class="text-sm text-muted dark:text-slate-200">Delivery: 1-7 days</div>
+            <a class="pricing-cta" href="#contact">Start a project</a>
           </div>
         </article>
 
-        <article class="relative rounded-3xl border border-transparent bg-gradient-to-br from-[#b79cff]/40 via-white/70 to-[#f6f1ff] p-[1px] min-h-[520px] h-full shadow-[0_24px_70px_rgba(126,104,212,0.45)] transition hover:-translate-y-1 dark:from-[#6d58c9]/40 dark:via-[#1c1630]/70 dark:to-[#2c2344] reveal" style="--delay: 160ms;">
-          <div class="absolute -top-3 left-6 rounded-full bg-gradient-to-r from-[#8b74ff] to-[#6f5fd4] px-3 py-1 text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-white shadow-[0_12px_30px_rgba(111,95,212,0.45)]">
-            Most Popular
-          </div>
-          <div class="rounded-[22px] bg-white/90 p-6 shadow-glow dark:bg-[#1a132b]/70 h-full flex flex-col">
-          <h3 class="mt-4 text-lg font-semibold text-ink-2 dark:text-white">
-            Conversion-focused landing for serious products
-          </h3>
-          <ul class="mt-5 grid gap-2 text-sm text-muted dark:text-slate-200">
-            <li>Conversion-optimized layout</li>
-            <li>Advanced motion &amp; light 3D</li>
-            <li>Full on-page SEO structure</li>
-            <li>Core Web Vitals optimization</li>
-            <li>Contact form &amp; analytics tracking</li>
-            <li>1 major + 2 minor revisions</li>
-          </ul>
-          <div class="mt-auto pt-6">
-            <div class="text-2xl font-bold text-ink-2 dark:text-white">$120 - $360</div>
-            <div class="text-sm text-muted dark:text-slate-200">Delivery: 7-21 days</div>
-          </div>
+        <article class="pricing-card featured reveal" style="--delay: 160ms;">
+          <div class="pricing-badge">Most Popular</div>
+          <div class="pricing-card__inner">
+            <div class="pricing-tier text-[#6f5fd4]">Pro</div>
+            <h3 class="mt-4 text-lg font-semibold text-ink-2 dark:text-white">
+              Conversion-focused landing for serious products
+            </h3>
+            <ul class="mt-5 grid gap-2 text-sm text-muted dark:text-slate-200">
+              <li>Conversion-optimized layout</li>
+              <li>Advanced motion &amp; light 3D</li>
+              <li>Full on-page SEO structure</li>
+              <li>Core Web Vitals optimization</li>
+              <li>Contact form &amp; analytics tracking</li>
+              <li>1 major + 2 minor revisions</li>
+            </ul>
+            <div class="mt-auto pt-6">
+              <div class="text-2xl font-bold text-ink-2 dark:text-white">$120 - $360</div>
+              <div class="text-sm text-muted dark:text-slate-200">Delivery: 7-21 days</div>
+              <a class="pricing-cta" href="#contact">Start a project</a>
+            </div>
           </div>
         </article>
 
-        <article class="rounded-3xl bg-white p-6 min-h-[520px] h-full flex flex-col shadow-[0_12px_40px_rgba(30,20,60,0.1)] transition hover:-translate-y-1 dark:bg-white/5 dark:shadow-[0_20px_60px_rgba(6,4,18,0.5)] reveal" style="--delay: 240ms;">
-          <div class="text-xs font-semibold uppercase tracking-[0.08em] text-[#6f5fd4]">Premium</div>
+        <article class="pricing-card reveal" style="--delay: 240ms;">
+          <div class="pricing-tier text-[#6f5fd4]">Premium</div>
           <h3 class="mt-4 text-lg font-semibold text-ink-2 dark:text-white">
             Custom 3D motion &amp; scalable landing system
           </h3>
@@ -385,80 +423,37 @@ const groupedSkills = skillOrder.map((group) => {
           <div class="mt-auto pt-6">
             <div class="text-2xl font-bold text-ink-2 dark:text-white">$360 - $999</div>
             <div class="text-sm text-muted dark:text-slate-200">Delivery: 14-60 days</div>
+            <a class="pricing-cta" href="#contact">Start a project</a>
           </div>
         </article>
       </div>
     </div>
   </section>
 
-  <section id="portfolio" class="py-16">
-    <div class="mx-auto w-[min(1120px,92vw)]">
-      <h2 class="font-display text-[clamp(1.8rem,3vw,2.6rem)] text-ink-2 dark:text-white">
-        Selected Projects
-      </h2>
-      <p class="mt-3 max-w-2xl text-muted dark:text-slate-200">
-        Recent landing pages and product marketing builds focused on conversion and performance.
-      </p>
-      <div class="mt-6 grid gap-4 md:grid-cols-3">
-        {[
-          {
-            title: "SaaS Growth Launch",
-            copy: "Rebuilt hero, pricing, and form UX to improve demo conversion.",
-            stack: "React, Tailwind, SEO",
-          },
-          {
-            title: "Indie Hacker Toolkit",
-            copy: "Performance-first landing with motion highlights and SEO uplift.",
-            stack: "Astro, GSAP, Lighthouse",
-          },
-          {
-            title: "Agency Service Site",
-            copy: "Modernized WordPress layout and stabilized Core Web Vitals.",
-            stack: "WordPress, Core Web Vitals",
-          },
-        ].map((item) => (
-          <article class="rounded-[20px] border border-[rgba(120,92,220,0.15)] bg-white p-5 text-sm text-muted dark:border-white/10 dark:bg-white/5 dark:text-slate-200 reveal" style="--delay: 120ms;">
-            <h3 class="text-base font-semibold text-ink-2 dark:text-white">{item.title}</h3>
-            <p class="mt-2">{item.copy}</p>
-            <p class="mt-3 text-xs uppercase tracking-[0.2em] text-muted dark:text-slate-300">
-              {item.stack}
-            </p>
-          </article>
-        ))}
-      </div>
-    </div>
-  </section>
-
   <section id="contact" class="py-16">
     <div class="mx-auto w-[min(1120px,92vw)]">
-      <div class="relative overflow-hidden rounded-[30px] border border-white/20 bg-gradient-to-br from-[#f7f2ff] via-[#f2f0ff] to-[#eef5ff] p-12 shadow-[0_30px_90px_rgba(20,14,38,0.35)] dark:border-white/10 dark:from-white/10 dark:via-[#1b142c]/60 dark:to-transparent reveal">
-        <div class="pointer-events-none absolute -right-16 -top-16 h-40 w-40 rounded-full bg-[radial-gradient(circle_at_center,rgba(167,139,250,0.4),transparent_65%)] blur-2xl"></div>
-        <div class="pointer-events-none absolute -bottom-20 left-10 h-48 w-48 rounded-full bg-[radial-gradient(circle_at_center,rgba(125,211,252,0.25),transparent_65%)] blur-3xl"></div>
-        <div class="relative flex flex-col items-center gap-8 text-center">
-          <div>
-            <h2 class="font-display text-[clamp(1.8rem,3vw,2.6rem)] text-ink-2 dark:text-white">
-              Lets connect on your preferred channel
-            </h2>
-            <p class="mt-3 text-sm text-muted dark:text-slate-200">
-              Choose a platform below. LinkedIn is the primary channel.
-            </p>
-            <div class="mt-6 flex justify-center">
-              <a
-                class="inline-flex items-center gap-3 rounded-full border border-white/20 bg-gradient-to-r from-[#8b74ff] to-[#6f5fd4] px-7 py-3 font-semibold text-white shadow-[0_18px_40px_rgba(126,104,212,0.45)] transition hover:-translate-y-0.5 hover:shadow-[0_22px_50px_rgba(126,104,212,0.55)]"
-                href="https://www.linkedin.com/in/hi%E1%BB%83n-nguy%E1%BB%85n-ng%E1%BB%8Dc-77226a326/"
-                target="_blank"
-                rel="noreferrer"
-              >
-                <span class="grid h-9 w-9 place-items-center rounded-full bg-white/25">
-                  <svg aria-hidden="true" viewBox="0 0 24 24" class="h-4 w-4" fill="currentColor">
-                    <path d="M6.94 7.5A1.94 1.94 0 1 1 7 3.62 1.94 1.94 0 0 1 6.94 7.5ZM4.5 9h4v11h-4V9Zm6.5 0h3.8v1.5h.06c.53-.95 1.83-1.95 3.77-1.95 4.03 0 4.77 2.65 4.77 6.1V20h-4v-4.9c0-1.17-.02-2.67-1.63-2.67-1.63 0-1.88 1.27-1.88 2.58V20h-4V9Z" />
-                  </svg>
-                </span>
-                Connect on LinkedIn
-              </a>
-            </div>
+      <div class="flex flex-col items-center gap-8 text-center">
+        <div>
+          <h2 class="section-title font-display text-[clamp(1.8rem,3vw,2.6rem)] text-ink-2 dark:text-white">
+            Let's connect on your preferred channel
+          </h2>
+          <div class="mt-6 flex justify-center">
+            <a
+              class="inline-flex items-center gap-3 rounded-full border border-white/20 bg-gradient-to-r from-[#8b74ff] to-[#6f5fd4] px-7 py-3 font-semibold text-white shadow-[0_18px_40px_rgba(126,104,212,0.45)] transition hover:-translate-y-0.5 hover:shadow-[0_22px_50px_rgba(126,104,212,0.55)]"
+              href="https://www.linkedin.com/in/hi%E1%BB%83n-nguy%E1%BB%85n-ng%E1%BB%8Dc-77226a326/"
+              target="_blank"
+              rel="noreferrer"
+            >
+              <span class="grid h-9 w-9 place-items-center rounded-full bg-white/25">
+                <svg aria-hidden="true" viewBox="0 0 24 24" class="h-4 w-4" fill="currentColor">
+                  <path d="M6.94 7.5A1.94 1.94 0 1 1 7 3.62 1.94 1.94 0 0 1 6.94 7.5ZM4.5 9h4v11h-4V9Zm6.5 0h3.8v1.5h.06c.53-.95 1.83-1.95 3.77-1.95 4.03 0 4.77 2.65 4.77 6.1V20h-4v-4.9c0-1.17-.02-2.67-1.63-2.67-1.63 0-1.88 1.27-1.88 2.58V20h-4V9Z" />
+                </svg>
+              </span>
+              Connect on LinkedIn
+            </a>
           </div>
-          <div class="flex flex-wrap justify-center gap-3">
+        </div>
+        <div class="flex flex-wrap justify-center gap-3">
             <a
               class="group inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/30 bg-white/80 text-ink-2 shadow-[0_12px_24px_rgba(20,14,38,0.18)] backdrop-blur transition hover:-translate-y-1 hover:border-[#8b74ff]/50 hover:bg-white dark:border-white/15 dark:bg-white/10 dark:text-white dark:hover:bg-white/15"
               href="https://www.linkedin.com/in/hi%E1%BB%83n-nguy%E1%BB%85n-ng%E1%BB%8Dc-77226a326/"
@@ -523,7 +518,6 @@ const groupedSkills = skillOrder.map((group) => {
                 </svg>
               </span>
             </a>
-          </div>
         </div>
       </div>
     </div>

@@ -1,0 +1,13 @@
+---
+const { reduced = false } = Astro.props;
+---
+{reduced ? null : (
+  <div class="lite-bg" aria-hidden="true">
+    <div class="lite-grid"></div>
+    <div class="lite-orb orb-a"></div>
+    <div class="lite-orb orb-b"></div>
+    <div class="lite-orb orb-c"></div>
+    <div class="lite-orb orb-d"></div>
+    <div class="lite-sheen"></div>
+  </div>
+)}
