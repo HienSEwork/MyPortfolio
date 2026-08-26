@@ -5,20 +5,20 @@ import ProjectLibrary from "../components/ProjectLibrary.astro";
 import { projectLibrary } from "../data/projects";
 
 const meta = {
-  title: "Hien Nguyen Ngoc | High-Conversion Landing Pages",
+  title: "Hien Nguyen Ngoc | Full-Stack WebApp Developer",
   description:
-    "SEO-first landing pages with motion, performance, and conversion-focused UX for startups and founders.",
+    "I help SMEs, startups & businesses build scalable, secure, high-performance digital products — landing pages, enterprise systems (ERP, CRM, SaaS), and programming mentoring.",
   url: "https://example.com",
 };
 
 const excludedSkills = new Set(["me"]);
 
 const skillAssets = Object.entries(
-  import.meta.glob("../assets/*.{png,jpg,jpeg,webp}", { eager: true })
+  import.meta.glob("../assets/*.{png,jpg,jpeg,webp,svg}", { eager: true })
 )
   .map(([path, mod]) => {
     const file = path.split("/").pop() || "";
-    const label = file.replace(/\.(png|jpe?g|webp)$/i, "").replace(/[-_]/g, " ");
+    const label = file.replace(/\.(png|jpe?g|webp|svg)$/i, "").replace(/[-_]/g, " ");
     const src = mod.default?.src ?? mod.default ?? mod;
     return { src, label };
   })
@@ -31,6 +31,7 @@ const skillOrder = [
     title: "Programming Languages",
     order: [
       ["js", "javascript"],
+      ["typescript"],
       ["java"],
       ["python"],
       ["csharp", "c#"],
@@ -43,6 +44,7 @@ const skillOrder = [
       ["tailwind", "tailwindcss"],
       ["spring", "springjava"],
       ["next", "nextjs"],
+      ["nodejs", "node"],
       ["dotnet"],
     ],
   },
@@ -61,6 +63,7 @@ const skillOrder = [
       ["pygame"],
       ["wordpress"],
       ["unity"],
+      ["nginx"],
       ["github"],
       ["gitlab"],
     ],
@@ -70,6 +73,7 @@ const skillOrder = [
 const displayNames = {
   js: "JavaScript",
   javascript: "JavaScript",
+  typescript: "TypeScript",
   java: "Java",
   python: "Python",
   csharp: "C#",
@@ -81,6 +85,8 @@ const displayNames = {
   springjava: "Spring",
   next: "Next.js",
   nextjs: "Next.js",
+  nodejs: "Node.js",
+  node: "Node.js",
   dotnet: ".NET",
   mysql: "MySQL",
   postgres: "PostgreSQL",
@@ -91,6 +97,7 @@ const displayNames = {
   pygame: "Pygame",
   wordpress: "WordPress",
   unity: "Unity",
+  nginx: "Nginx",
   github: "GitHub",
   gitlab: "GitLab",
 };
@@ -114,6 +121,7 @@ const templateProjects = projectLibrary.filter((project) => project.deliveryType
   <header class="pointer-events-none absolute inset-x-0 top-0 z-20 mx-auto flex w-[min(1120px,92vw)] justify-center pt-6">
     <nav class="nav-glow pointer-events-auto flex flex-wrap items-center gap-6 rounded-full border border-white/20 bg-white/90 px-8 py-3 text-sm font-semibold text-ink-2 shadow-[0_16px_40px_rgba(20,16,40,0.12)] dark:border-white/10 dark:bg-white/5 dark:text-white">
       <a href="#about">About</a>
+      <a href="#services">Services</a>
       <a href="#projects">Projects</a>
       <a href="#skills">Skills</a>
       <a href="#portfolio">Library</a>
@@ -129,76 +137,149 @@ const templateProjects = projectLibrary.filter((project) => project.deliveryType
       <div class="grid gap-10 lg:grid-cols-[1.1fr_0.9fr] items-start">
         <div>
           <h2 class="section-title font-display text-[clamp(1.9rem,3.2vw,2.7rem)] text-ink-2 dark:text-white">
-            A focused delivery model for fast, premium launches.
+            Business-oriented development for reliable digital products.
           </h2>
           <p class="mt-4 text-muted dark:text-slate-200">
-            I'm Hien Nguyen Ngoc, a fullstack web developer building conversion-focused landing pages for startups and
-            small teams — shipping fast with clean code, SEO-ready structure, and performance tuning, end-to-end from
-            UI design to launch.
+            I'm Hien Nguyen Ngoc (HienDevWeb), a full-stack WebApp developer helping SMEs, startups and businesses
+            build scalable, secure, high-performance digital products — from landing pages to enterprise systems
+            (ERP, CRM, Logistics, Finance, Tracking, Booking, E-commerce, SaaS), solo or with a development team.
           </p>
           <div class="mt-6 grid gap-4 text-sm text-muted dark:text-slate-200">
             <div class="flex gap-4">
               <span class="inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/30 bg-white/70 text-sm font-semibold text-ink-2 shadow-[0_10px_24px_rgba(20,14,38,0.12)] dark:border-white/10 dark:bg-white/5 dark:text-white">01</span>
               <div>
-                <strong class="block text-base text-ink-2 dark:text-white">Structured delivery</strong>
-                Scope clarity, milestones, and fast feedback loops.
+                <strong class="block text-base text-ink-2 dark:text-white">Business-oriented development</strong>
+                Solutions scoped around real business goals, not just features.
               </div>
             </div>
             <div class="flex gap-4">
               <span class="inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/30 bg-white/70 text-sm font-semibold text-ink-2 shadow-[0_10px_24px_rgba(20,14,38,0.12)] dark:border-white/10 dark:bg-white/5 dark:text-white">02</span>
               <div>
-                <strong class="block text-base text-ink-2 dark:text-white">Conversion-first UI</strong>
-                Layouts and copy flow designed to guide user action.
+                <strong class="block text-base text-ink-2 dark:text-white">Scalable &amp; secure architecture</strong>
+                REST APIs and system design built to grow with your business.
               </div>
             </div>
             <div class="flex gap-4">
               <span class="inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/30 bg-white/70 text-sm font-semibold text-ink-2 shadow-[0_10px_24px_rgba(20,14,38,0.12)] dark:border-white/10 dark:bg-white/5 dark:text-white">03</span>
               <div>
-                <strong class="block text-base text-ink-2 dark:text-white">Performance tuned</strong>
-                Core Web Vitals, image strategy, and clean structure.
+                <strong class="block text-base text-ink-2 dark:text-white">End-to-end delivery</strong>
+                Database, backend, and frontend, tuned for performance.
+              </div>
+            </div>
+            <div class="flex gap-4">
+              <span class="inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/30 bg-white/70 text-sm font-semibold text-ink-2 shadow-[0_10px_24px_rgba(20,14,38,0.12)] dark:border-white/10 dark:bg-white/5 dark:text-white">04</span>
+              <div>
+                <strong class="block text-base text-ink-2 dark:text-white">Long-term support</strong>
+                Flexible solo or team delivery, with ongoing maintenance.
               </div>
             </div>
           </div>
         </div>
         <div class="grid gap-6 text-sm text-muted dark:text-slate-200">
           <div class="flex flex-col gap-2">
-            <span class="text-xs uppercase tracking-[0.2em] text-muted">Delivery focus</span>
-            <p>
-              Clear planning, weekly updates, and fast iterations that keep launches on track.
-            </p>
+            <span class="text-xs uppercase tracking-[0.2em] text-muted">Frontend</span>
+            <p>React.js, Next.js, TypeScript, Tailwind CSS</p>
           </div>
           <div class="flex flex-col gap-2">
-            <span class="text-xs uppercase tracking-[0.2em] text-muted">Performance</span>
-            <p>
-              SEO-first structure, image strategy, and Core Web Vitals optimization built in.
-            </p>
+            <span class="text-xs uppercase tracking-[0.2em] text-muted">Backend</span>
+            <p>.NET, Java Spring Boot, Node.js</p>
           </div>
           <div class="flex flex-col gap-2">
-            <span class="text-xs uppercase tracking-[0.2em] text-muted">Results</span>
-            <p>
-              Conversion-driven layouts that guide user action and build trust quickly.
-            </p>
+            <span class="text-xs uppercase tracking-[0.2em] text-muted">Database &amp; API</span>
+            <p>PostgreSQL, MySQL, SQL Server, REST API &amp; system architecture</p>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  
+  <section id="services" class="py-16">
+    <div class="mx-auto w-[min(1120px,92vw)]">
+      <h2 class="section-title font-display text-[clamp(1.9rem,3.2vw,2.7rem)] text-ink-2 dark:text-white">
+        Services
+      </h2>
+      <div class="mt-8 grid gap-6 md:grid-cols-3 items-stretch">
+        <article class="pricing-card reveal" style="--delay: 80ms;">
+          <div class="pricing-tier text-[#6f5fd4]">Websites &amp; WebApps</div>
+          <h3 class="mt-4 text-lg font-semibold text-ink-2 dark:text-white">
+            Landing pages &amp; conversion-focused sites
+          </h3>
+          <p class="mt-4 text-sm text-muted dark:text-slate-200">
+            High-conversion landing pages and marketing sites with motion, SEO structure, and performance built in
+            for startups and founders.
+          </p>
+          <ul class="mt-5 grid gap-2 text-sm text-muted dark:text-slate-200">
+            <li>Landing pages &amp; WebApps</li>
+            <li>SaaS / MVP builds</li>
+            <li>Motion &amp; light 3D</li>
+            <li>SEO &amp; Core Web Vitals</li>
+          </ul>
+          <div class="mt-auto pt-6">
+            <a class="pricing-cta" href="#pricing">See pricing</a>
+          </div>
+        </article>
+
+        <article class="pricing-card featured reveal" style="--delay: 160ms;">
+          <div class="pricing-badge">Business Systems</div>
+          <div class="pricing-card__inner">
+            <div class="pricing-tier text-[#6f5fd4]">Enterprise Solutions</div>
+            <h3 class="mt-4 text-lg font-semibold text-ink-2 dark:text-white">
+              ERP, CRM &amp; custom business systems
+            </h3>
+            <p class="mt-4 text-sm text-muted dark:text-slate-200">
+              End-to-end enterprise systems built for scale and security — API design, database architecture, and
+              long-term maintenance included.
+            </p>
+            <ul class="mt-5 grid gap-2 text-sm text-muted dark:text-slate-200">
+              <li>ERP &amp; CRM systems</li>
+              <li>Logistics, Finance &amp; Tracking</li>
+              <li>Booking &amp; E-commerce platforms</li>
+              <li>API &amp; database architecture</li>
+            </ul>
+            <div class="mt-auto pt-6">
+              <a class="pricing-cta" href="#contact">Discuss your project</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="pricing-card reveal" style="--delay: 240ms;">
+          <div class="pricing-tier text-[#6f5fd4]">Mentoring</div>
+          <h3 class="mt-4 text-lg font-semibold text-ink-2 dark:text-white">
+            Programming tutoring &amp; assignment help
+          </h3>
+          <p class="mt-4 text-sm text-muted dark:text-slate-200">
+            1-on-1 or group coaching in JavaScript, Java, Python, C#, React and more — plus hands-on help with
+            coursework and assignments for students.
+          </p>
+          <ul class="mt-5 grid gap-2 text-sm text-muted dark:text-slate-200">
+            <li>Programming language tutoring</li>
+            <li>Student assignment &amp; project help</li>
+            <li>Code review &amp; debugging sessions</li>
+            <li>Flexible online scheduling</li>
+          </ul>
+          <div class="mt-auto pt-6">
+            <a class="pricing-cta" href="#contact">Book a session</a>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+
 
   <section id="projects" class="py-16">
     <div class="mx-auto w-[min(1120px,92vw)]">
       <h2 class="section-title font-display text-[clamp(1.9rem,3.2vw,2.7rem)] text-ink-2 dark:text-white">
         Completed Projects
       </h2>
-      <div class="mt-6 flex flex-wrap gap-3 text-xs font-semibold uppercase tracking-[0.2em] text-ink-2 dark:text-white">
-        <button class="project-tab is-active" type="button">All</button>
-        <button class="project-tab" type="button">Business</button>
-        <button class="project-tab" type="button">E-commerce</button>
-        <button class="project-tab" type="button">Creative</button>
-        <button class="project-tab" type="button">Game</button>
+      <div id="project-tabs" class="mt-6 flex flex-wrap gap-3 text-xs font-semibold uppercase tracking-[0.2em] text-ink-2 dark:text-white">
+        <button class="project-tab is-active" type="button" data-filter="All">All</button>
+        <button class="project-tab" type="button" data-filter="Business">Business</button>
+        <button class="project-tab" type="button" data-filter="E-commerce">E-commerce</button>
+        <button class="project-tab" type="button" data-filter="Creative">Creative</button>
+        <button class="project-tab" type="button" data-filter="Game">Game</button>
       </div>
-      <div class="mt-8">
+      <div id="project-gallery" class="mt-8">
         <ProjectLibrary projects={doneProjects} showLinks={false} />
       </div>
     </div>
@@ -221,11 +302,12 @@ const templateProjects = projectLibrary.filter((project) => project.deliveryType
                 <div class="h-px flex-1 bg-gradient-to-r from-transparent via-white/30 to-transparent dark:via-white/10"></div>
               </div>
               <div class="flex flex-wrap justify-center gap-8">
-                {group.items.map((skill) => (
+                {group.items.map((skill, skillIndex) => (
                   <div
-                    class={`group relative h-24 w-24 cursor-pointer rounded-full p-[1px] shadow-[0_18px_36px_rgba(40,25,80,0.28)] transition hover:-translate-y-1 hover:shadow-[0_26px_50px_rgba(40,25,80,0.42)] skill-ring ${
+                    class={`group relative h-24 w-24 cursor-pointer rounded-full p-[1px] shadow-[0_18px_36px_rgba(40,25,80,0.28)] transition hover:-translate-y-1 hover:shadow-[0_26px_50px_rgba(40,25,80,0.42)] skill-ring bell-wobble ${
                       sparkleSet.has(normalize(skill.label)) ? "sparkle-ring" : ""
                     }`}
+                    style={`animation-delay: ${(skillIndex % 6) * 0.35}s;`}
                   >
                     <div class="relative h-full w-full rounded-full bg-transparent p-[1px] skill-core">
                     <img
@@ -273,8 +355,12 @@ const templateProjects = projectLibrary.filter((project) => project.deliveryType
   <section id="pricing" class="py-16">
     <div class="mx-auto w-[min(1120px,92vw)]">
       <h2 class="section-title font-display text-[clamp(1.8rem,3vw,2.6rem)] text-ink-2 dark:text-white">
-        Services &amp; Pricing
+        Landing Page &amp; WebApp Pricing
       </h2>
+      <p class="mt-4 max-w-2xl text-sm text-muted dark:text-slate-200">
+        Fixed-scope pricing for landing pages and WebApps. Enterprise systems and mentoring are quoted per project —
+        <a href="#contact" class="underline decoration-[#7e68d4]/50 underline-offset-4 hover:text-ink-2 dark:hover:text-white">get in touch</a> for a scope call.
+      </p>
       <div class="mt-7 grid gap-6 md:grid-cols-3 items-stretch">
         <article class="pricing-card reveal" style="--delay: 80ms;">
           <div class="pricing-tier text-[#6f5fd4]">Basic</div>
@@ -434,4 +520,26 @@ const templateProjects = projectLibrary.filter((project) => project.deliveryType
     </div>
   </section>
 
+  <script>
+    const tabsEl = document.getElementById("project-tabs");
+    const galleryEl = document.getElementById("project-gallery");
+
+    if (tabsEl && galleryEl) {
+      const cards = Array.from(galleryEl.querySelectorAll<HTMLElement>(".gallery-card"));
+
+      tabsEl.addEventListener("click", (event) => {
+        const button = (event.target as HTMLElement).closest<HTMLButtonElement>(".project-tab");
+        if (!button) return;
+
+        tabsEl.querySelectorAll(".project-tab").forEach((tab) => tab.classList.remove("is-active"));
+        button.classList.add("is-active");
+
+        const filter = button.dataset.filter ?? "All";
+        cards.forEach((card) => {
+          const matches = filter === "All" || card.dataset.category === filter;
+          card.style.display = matches ? "" : "none";
+        });
+      });
+    }
+  </script>
 </BaseLayout>

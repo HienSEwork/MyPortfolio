@@ -263,7 +263,7 @@ export default function HeroMotion() {
             </h1>
 
             <div ref={metaRef} className="mt-6 flex flex-wrap items-center justify-center gap-4 font-mono text-xs uppercase tracking-[0.35em] text-white/60 sm:text-sm">
-              <span>Landing Pages · Motion · Performance</span>
+              <span>WebApps · Enterprise Systems · Mentoring</span>
               <span className="h-3 w-px bg-white/25" aria-hidden />
               <span>Remote — Worldwide</span>
             </div>
