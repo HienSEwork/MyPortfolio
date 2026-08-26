@@ -918,21 +918,70 @@ html.dark .gallery-card {
 
 .lightbox__stage {
   position: relative;
-  width: min(720px, 92vw);
-  max-height: 88vh;
+  width: min(680px, 92vw);
+  max-height: 92vh;
   overflow-y: auto;
-  border-radius: 24px;
+  overflow-x: hidden;
+  border-radius: 26px;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.lightbox__stage::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  display: none;
+}
+
+@property --lb-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+.lightbox__frame {
+  position: relative;
+  border-radius: 26px;
+  padding: 2.5px;
+  transform-origin: center;
+}
+
+.lightbox__frame::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 2.5px;
+  background: conic-gradient(
+    from var(--lb-angle, 0deg),
+    #ff5a5a,
+    #ff9f4a,
+    #f4d64a,
+    #59d97e,
+    #4ab7ff,
+    #7c5cff,
+    #ff5ac8,
+    #ff5a5a
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: lightbox-spin 7s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes lightbox-spin {
+  to {
+    --lb-angle: 360deg;
+  }
 }
 
 .lightbox__card {
   position: relative;
   background: linear-gradient(165deg, rgba(26, 20, 44, 0.98), rgba(8, 6, 16, 0.98));
   border-radius: 24px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 40px 90px rgba(4, 3, 10, 0.6), 0 0 0 1px rgb(var(--accent) / 0.3),
-    0 0 70px rgb(var(--accent) / 0.22);
+  box-shadow: 0 40px 90px rgba(4, 3, 10, 0.6), 0 0 70px rgb(var(--accent) / 0.2);
   overflow: hidden;
-  transform-origin: center;
 }
 
 .lightbox__close {
@@ -959,7 +1008,7 @@ html.dark .gallery-card {
 
 .lightbox__media {
   position: relative;
-  aspect-ratio: 16 / 9;
+  aspect-ratio: 16 / 6.4;
   overflow: hidden;
   background: #05040a;
 }
@@ -1019,7 +1068,7 @@ html.dark .gallery-card {
 
 .lightbox__body {
   position: relative;
-  padding: 42px 26px 26px;
+  padding: 36px 24px 22px;
 }
 
 .lightbox__top {
@@ -1054,8 +1103,8 @@ html.dark .gallery-card {
 .lightbox__tech {
   display: flex;
   flex-wrap: wrap;
-  gap: 7px;
-  margin-top: 16px;
+  gap: 6px;
+  margin-top: 12px;
 }
 
 .lightbox__tech span {
@@ -1074,8 +1123,8 @@ html.dark .gallery-card {
   align-items: center;
   justify-content: space-between;
   gap: 10px;
-  margin-top: 22px;
-  padding-top: 16px;
+  margin-top: 16px;
+  padding-top: 14px;
   border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 
@@ -1105,9 +1154,13 @@ html.dark .gallery-card {
   .deck-card,
   .deck-card__face img,
   .lightbox,
-  .lightbox__card,
+  .lightbox__frame,
   .lightbox__close,
   .lightbox__footer a {
     transition: none;
+  }
+
+  .lightbox__frame::before {
+    animation: none;
   }
 }

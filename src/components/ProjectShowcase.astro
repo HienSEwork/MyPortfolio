@@ -67,30 +67,32 @@ const getHost = (url?: string) => {
 <div class="lightbox" id="project-lightbox" aria-hidden="true">
   <div class="lightbox__backdrop" data-close></div>
   <div class="lightbox__stage">
-    <article class="lightbox__card" id="lightbox-card">
-      <button type="button" class="lightbox__close" data-close aria-label="Close">
-        ✕
-      </button>
-      <div class="lightbox__media">
-        <img id="lightbox-image" src="" alt="" />
-        <span class="lightbox__logo"><img id="lightbox-logo" src="" alt="" /></span>
-        <span class="lightbox__category" id="lightbox-category"></span>
-      </div>
-      <div class="lightbox__body">
-        <div class="lightbox__top">
-          <h3 id="lightbox-name"></h3>
-          <span id="lightbox-host"></span>
+    <div class="lightbox__frame" id="lightbox-frame">
+      <article class="lightbox__card" id="lightbox-card">
+        <button type="button" class="lightbox__close" data-close aria-label="Close">
+          ✕
+        </button>
+        <div class="lightbox__media">
+          <img id="lightbox-image" src="" alt="" />
+          <span class="lightbox__logo"><img id="lightbox-logo" src="" alt="" /></span>
+          <span class="lightbox__category" id="lightbox-category"></span>
         </div>
-        <p id="lightbox-desc"></p>
-        <div class="lightbox__tech" id="lightbox-tech"></div>
-        <div class="lightbox__footer">
-          <span id="lightbox-role"></span>
-          <a id="lightbox-visit" href="#" target="_blank" rel="noreferrer">
-            Visit site →
-          </a>
+        <div class="lightbox__body">
+          <div class="lightbox__top">
+            <h3 id="lightbox-name"></h3>
+            <span id="lightbox-host"></span>
+          </div>
+          <p id="lightbox-desc"></p>
+          <div class="lightbox__tech" id="lightbox-tech"></div>
+          <div class="lightbox__footer">
+            <span id="lightbox-role"></span>
+            <a id="lightbox-visit" href="#" target="_blank" rel="noreferrer">
+              Visit site →
+            </a>
+          </div>
         </div>
-      </div>
-    </article>
+      </article>
+    </div>
   </div>
 </div>
 
@@ -146,7 +148,7 @@ const getHost = (url?: string) => {
 
   // Zoom-to-center lightbox (FLIP animation)
   const lightbox = document.getElementById("project-lightbox") as HTMLElement | null;
-  const cardEl = document.getElementById("lightbox-card") as HTMLElement | null;
+  const frameEl = document.getElementById("lightbox-frame") as HTMLElement | null;
   const lbImage = document.getElementById("lightbox-image") as HTMLImageElement | null;
   const lbLogo = document.getElementById("lightbox-logo") as HTMLImageElement | null;
   const lbCategory = document.getElementById("lightbox-category");
@@ -169,7 +171,7 @@ const getHost = (url?: string) => {
   };
 
   const openCard = (trigger: HTMLButtonElement) => {
-    if (!lightbox || !cardEl || !lbImage || !lbLogo) return;
+    if (!lightbox || !frameEl || !lbImage || !lbLogo) return;
     activeTrigger = trigger;
 
     lbImage.src = trigger.dataset.image ?? "";
@@ -205,7 +207,7 @@ const getHost = (url?: string) => {
     }
 
     const accent = getComputedStyle(trigger).getPropertyValue("--accent");
-    cardEl.style.setProperty("--accent", accent);
+    frameEl.style.setProperty("--accent", accent);
 
     document.body.style.overflow = "hidden";
     lightbox.classList.add("is-open");
@@ -215,28 +217,28 @@ const getHost = (url?: string) => {
 
     const startRect = trigger.getBoundingClientRect();
     requestAnimationFrame(() => {
-      const endRect = cardEl.getBoundingClientRect();
-      cardEl.style.transition = "none";
-      cardEl.style.transform = flipFrom(startRect, endRect);
-      cardEl.style.opacity = "0.9";
+      const endRect = frameEl.getBoundingClientRect();
+      frameEl.style.transition = "none";
+      frameEl.style.transform = flipFrom(startRect, endRect);
+      frameEl.style.opacity = "0.9";
       requestAnimationFrame(() => {
-        cardEl.style.transition = "transform 0.55s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.3s ease";
-        cardEl.style.transform = "translate(0, 0) scale(1, 1)";
-        cardEl.style.opacity = "1";
+        frameEl.style.transition = "transform 0.55s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.3s ease";
+        frameEl.style.transform = "translate(0, 0) scale(1, 1)";
+        frameEl.style.opacity = "1";
       });
     });
   };
 
   const closeCard = () => {
-    if (!lightbox || !cardEl) return;
+    if (!lightbox || !frameEl) return;
 
     const finish = () => {
       lightbox.classList.remove("is-open");
       lightbox.setAttribute("aria-hidden", "true");
       document.body.style.overflow = "";
-      cardEl.style.transition = "none";
-      cardEl.style.transform = "";
-      cardEl.style.opacity = "";
+      frameEl.style.transition = "none";
+      frameEl.style.transform = "";
+      frameEl.style.opacity = "";
       activeTrigger = null;
     };
 
@@ -246,16 +248,16 @@ const getHost = (url?: string) => {
     }
 
     const startRect = activeTrigger.getBoundingClientRect();
-    const currentRect = cardEl.getBoundingClientRect();
-    cardEl.style.transition = "transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.35s ease";
-    cardEl.style.transform = flipFrom(startRect, currentRect);
-    cardEl.style.opacity = "0";
+    const currentRect = frameEl.getBoundingClientRect();
+    frameEl.style.transition = "transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.35s ease";
+    frameEl.style.transform = flipFrom(startRect, currentRect);
+    frameEl.style.opacity = "0";
 
     const onEnd = () => {
-      cardEl.removeEventListener("transitionend", onEnd);
+      frameEl.removeEventListener("transitionend", onEnd);
       finish();
     };
-    cardEl.addEventListener("transitionend", onEnd);
+    frameEl.addEventListener("transitionend", onEnd);
   };
 
   allCards.forEach((card) => {
