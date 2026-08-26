@@ -51,7 +51,10 @@ const getHost = (url?: string) => {
             aria-label={`Open ${project.projectName}`}
           >
             <span class="deck-card__face">
-              {face ? <img src={face} alt={project.projectName} loading="lazy" decoding="async" /> : null}
+              <span class="deck-card__name">{project.projectName}</span>
+              <span class="deck-card__plate">
+                {face ? <img src={face} alt={project.projectName} loading="lazy" decoding="async" /> : null}
+              </span>
               <span class="deck-card__category">{project.category}</span>
             </span>
           </button>
@@ -92,10 +95,10 @@ const getHost = (url?: string) => {
 </div>
 
 <script>
-  const CARD_WIDTH = 172;
-  const OVERLAP_DESKTOP = 60;
-  const OVERLAP_MOBILE = 44;
-  const AMPLITUDE = 30;
+  const CARD_WIDTH = 224;
+  const OVERLAP_DESKTOP = 78;
+  const OVERLAP_MOBILE = 56;
+  const AMPLITUDE = 34;
 
   const track = document.getElementById("project-deck") as HTMLElement | null;
   const allCards = Array.from(document.querySelectorAll<HTMLButtonElement>(".deck-card"));
