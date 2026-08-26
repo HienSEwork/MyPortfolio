@@ -24,82 +24,246 @@ const getHost = (url?: string) => {
 };
 ---
 
-<div class="showcase-grid">
-  {
-    projects.map((project, index) => {
-      const host = getHost(project.websiteURL);
-      const accent = categoryAccent[project.category];
-      const Tag = project.websiteURL ? "a" : "div";
-      const linkProps = project.websiteURL
-        ? { href: project.websiteURL, target: "_blank", rel: "noreferrer" }
-        : {};
+<div class="deck-wrap">
+  <div class="deck" id="project-deck">
+    {
+      projects.map((project, index) => {
+        const accent = categoryAccent[project.category];
+        const host = getHost(project.websiteURL);
+        const face = project.logoUrl ?? project.imageUrl ?? "";
+        const media = project.imageUrl ?? project.logoUrl ?? "";
 
-      return (
-        <article
-          class="showcase-card"
-          data-category={project.category}
-          style={`--accent: ${accent}; --delay: ${index * 60}ms; --deal: ${index};`}
-        >
-          <Tag class="showcase-card__link" {...linkProps}>
-            <span class="showcase-card__spin" aria-hidden="true" />
-            <div class="showcase-card__inner">
-              <div class="showcase-card__logo">
-                {project.logoUrl ? (
-                  <img src={project.logoUrl} alt={project.projectName} loading="lazy" decoding="async" />
-                ) : project.imageUrl ? (
-                  <img src={project.imageUrl} alt={project.projectName} loading="lazy" decoding="async" />
-                ) : null}
-                <span class="showcase-card__category">{project.category}</span>
-                {project.deliveryType === "similar" ? (
-                  <span class="showcase-card__badge">Template</span>
-                ) : null}
-              </div>
-              <div class="showcase-card__body">
-                <h3>{project.projectName}</h3>
-                {host ? <span class="showcase-card__host">{host}</span> : null}
-                <div class="showcase-card__tech">
-                  {project.technologies.slice(0, 2).map((tech) => (
-                    <span>{tech}</span>
-                  ))}
-                  {project.technologies.length > 2 ? <span>+{project.technologies.length - 2}</span> : null}
-                </div>
-                <div class="showcase-card__footer">
-                  <span class="showcase-card__role">{project.role}</span>
-                  {project.websiteURL ? (
-                    <span class="showcase-card__cta">Visit →</span>
-                  ) : (
-                    <span class="showcase-card__cta showcase-card__cta--muted">Private</span>
-                  )}
-                </div>
-              </div>
-            </div>
-          </Tag>
-        </article>
-      );
-    })
-  }
+        return (
+          <button
+            type="button"
+            class="deck-card"
+            data-category={project.category}
+            data-name={project.projectName}
+            data-desc={project.description}
+            data-role={project.role}
+            data-host={host ?? ""}
+            data-url={project.websiteURL ?? ""}
+            data-tech={project.technologies.join(",")}
+            data-logo={face}
+            data-image={media}
+            data-status={project.deliveryType ?? ""}
+            style={`--accent: ${accent}; --order: ${index};`}
+            aria-label={`Open ${project.projectName}`}
+          >
+            <span class="deck-card__face">
+              {face ? <img src={face} alt={project.projectName} loading="lazy" decoding="async" /> : null}
+              <span class="deck-card__category">{project.category}</span>
+            </span>
+          </button>
+        );
+      })
+    }
+  </div>
+</div>
+
+<div class="lightbox" id="project-lightbox" aria-hidden="true">
+  <div class="lightbox__backdrop" data-close></div>
+  <div class="lightbox__stage">
+    <article class="lightbox__card" id="lightbox-card">
+      <button type="button" class="lightbox__close" data-close aria-label="Close">
+        ✕
+      </button>
+      <div class="lightbox__media">
+        <img id="lightbox-image" src="" alt="" />
+        <span class="lightbox__logo"><img id="lightbox-logo" src="" alt="" /></span>
+        <span class="lightbox__category" id="lightbox-category"></span>
+      </div>
+      <div class="lightbox__body">
+        <div class="lightbox__top">
+          <h3 id="lightbox-name"></h3>
+          <span id="lightbox-host"></span>
+        </div>
+        <p id="lightbox-desc"></p>
+        <div class="lightbox__tech" id="lightbox-tech"></div>
+        <div class="lightbox__footer">
+          <span id="lightbox-role"></span>
+          <a id="lightbox-visit" href="#" target="_blank" rel="noreferrer">
+            Visit site →
+          </a>
+        </div>
+      </div>
+    </article>
+  </div>
 </div>
 
 <script>
-  const cards = document.querySelectorAll<HTMLElement>(".showcase-card");
-  const strength = 6;
+  const CARD_WIDTH = 172;
+  const OVERLAP_DESKTOP = 60;
+  const OVERLAP_MOBILE = 44;
+  const AMPLITUDE = 30;
 
-  cards.forEach((card) => {
-    const handleMove = (event: PointerEvent) => {
-      const rect = card.getBoundingClientRect();
-      const px = (event.clientX - rect.left) / rect.width - 0.5;
-      const py = (event.clientY - rect.top) / rect.height - 0.5;
-      card.style.setProperty("--rx", `${(-py * strength).toFixed(2)}deg`);
-      card.style.setProperty("--ry", `${(px * strength).toFixed(2)}deg`);
-    };
-    const reset = () => {
-      card.style.setProperty("--rx", "0deg");
-      card.style.setProperty("--ry", "0deg");
-    };
+  const track = document.getElementById("project-deck") as HTMLElement | null;
+  const allCards = Array.from(document.querySelectorAll<HTMLButtonElement>(".deck-card"));
 
-    if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      card.addEventListener("pointermove", handleMove);
-      card.addEventListener("pointerleave", reset);
+  const layoutDeck = () => {
+    if (!track) return;
+    const overlap = window.innerWidth < 640 ? OVERLAP_MOBILE : OVERLAP_DESKTOP;
+    const visible = allCards.filter((card) => card.style.display !== "none");
+    const n = visible.length;
+
+    visible.forEach((card, i) => {
+      const t = n > 1 ? i / (n - 1) : 0.5;
+      const y = Math.sin(t * Math.PI * 1.15 - 0.25) * AMPLITUDE;
+      const rot = (t - 0.5) * 18;
+      card.style.left = `${i * overlap}px`;
+      card.style.zIndex = String(i + 1);
+      card.style.setProperty("--card-y", `${y}px`);
+      card.style.setProperty("--card-rot", `${rot}deg`);
+    });
+
+    track.style.width = `${Math.max(0, n - 1) * overlap + CARD_WIDTH}px`;
+  };
+
+  layoutDeck();
+  window.addEventListener("resize", layoutDeck);
+
+  // Category tab filtering
+  const tabsEl = document.getElementById("project-tabs");
+  if (tabsEl) {
+    tabsEl.addEventListener("click", (event) => {
+      const button = (event.target as HTMLElement).closest<HTMLButtonElement>(".project-tab");
+      if (!button) return;
+
+      tabsEl.querySelectorAll(".project-tab").forEach((tab) => tab.classList.remove("is-active"));
+      button.classList.add("is-active");
+
+      const filter = button.dataset.filter ?? "All";
+      allCards.forEach((card) => {
+        const matches = filter === "All" || card.dataset.category === filter;
+        card.style.display = matches ? "" : "none";
+      });
+      layoutDeck();
+    });
+  }
+
+  // Zoom-to-center lightbox (FLIP animation)
+  const lightbox = document.getElementById("project-lightbox") as HTMLElement | null;
+  const cardEl = document.getElementById("lightbox-card") as HTMLElement | null;
+  const lbImage = document.getElementById("lightbox-image") as HTMLImageElement | null;
+  const lbLogo = document.getElementById("lightbox-logo") as HTMLImageElement | null;
+  const lbCategory = document.getElementById("lightbox-category");
+  const lbName = document.getElementById("lightbox-name");
+  const lbHost = document.getElementById("lightbox-host");
+  const lbDesc = document.getElementById("lightbox-desc");
+  const lbTech = document.getElementById("lightbox-tech");
+  const lbRole = document.getElementById("lightbox-role");
+  const lbVisit = document.getElementById("lightbox-visit") as HTMLAnchorElement | null;
+
+  let activeTrigger: HTMLElement | null = null;
+  const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  const flipFrom = (rectFrom: DOMRect, rectTo: DOMRect) => {
+    const dx = rectFrom.left + rectFrom.width / 2 - (rectTo.left + rectTo.width / 2);
+    const dy = rectFrom.top + rectFrom.height / 2 - (rectTo.top + rectTo.height / 2);
+    const sx = rectFrom.width / rectTo.width;
+    const sy = rectFrom.height / rectTo.height;
+    return `translate(${dx}px, ${dy}px) scale(${sx}, ${sy})`;
+  };
+
+  const openCard = (trigger: HTMLButtonElement) => {
+    if (!lightbox || !cardEl || !lbImage || !lbLogo) return;
+    activeTrigger = trigger;
+
+    lbImage.src = trigger.dataset.image ?? "";
+    lbImage.alt = trigger.dataset.name ?? "";
+    lbLogo.src = trigger.dataset.logo ?? "";
+    lbLogo.alt = "";
+    if (lbCategory) lbCategory.textContent = trigger.dataset.category ?? "";
+    if (lbName) lbName.textContent = trigger.dataset.name ?? "";
+    if (lbHost) lbHost.textContent = trigger.dataset.host ?? "";
+    if (lbDesc) lbDesc.textContent = trigger.dataset.desc ?? "";
+    if (lbRole) lbRole.textContent = trigger.dataset.role ?? "";
+
+    if (lbTech) {
+      lbTech.innerHTML = "";
+      (trigger.dataset.tech ?? "")
+        .split(",")
+        .filter(Boolean)
+        .forEach((tech) => {
+          const span = document.createElement("span");
+          span.textContent = tech;
+          lbTech.appendChild(span);
+        });
     }
+
+    const url = trigger.dataset.url ?? "";
+    if (lbVisit) {
+      if (url) {
+        lbVisit.href = url;
+        lbVisit.style.display = "";
+      } else {
+        lbVisit.style.display = "none";
+      }
+    }
+
+    const accent = getComputedStyle(trigger).getPropertyValue("--accent");
+    cardEl.style.setProperty("--accent", accent);
+
+    document.body.style.overflow = "hidden";
+    lightbox.classList.add("is-open");
+    lightbox.setAttribute("aria-hidden", "false");
+
+    if (reduced) return;
+
+    const startRect = trigger.getBoundingClientRect();
+    requestAnimationFrame(() => {
+      const endRect = cardEl.getBoundingClientRect();
+      cardEl.style.transition = "none";
+      cardEl.style.transform = flipFrom(startRect, endRect);
+      cardEl.style.opacity = "0.9";
+      requestAnimationFrame(() => {
+        cardEl.style.transition = "transform 0.55s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.3s ease";
+        cardEl.style.transform = "translate(0, 0) scale(1, 1)";
+        cardEl.style.opacity = "1";
+      });
+    });
+  };
+
+  const closeCard = () => {
+    if (!lightbox || !cardEl) return;
+
+    const finish = () => {
+      lightbox.classList.remove("is-open");
+      lightbox.setAttribute("aria-hidden", "true");
+      document.body.style.overflow = "";
+      cardEl.style.transition = "none";
+      cardEl.style.transform = "";
+      cardEl.style.opacity = "";
+      activeTrigger = null;
+    };
+
+    if (reduced || !activeTrigger) {
+      finish();
+      return;
+    }
+
+    const startRect = activeTrigger.getBoundingClientRect();
+    const currentRect = cardEl.getBoundingClientRect();
+    cardEl.style.transition = "transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.35s ease";
+    cardEl.style.transform = flipFrom(startRect, currentRect);
+    cardEl.style.opacity = "0";
+
+    const onEnd = () => {
+      cardEl.removeEventListener("transitionend", onEnd);
+      finish();
+    };
+    cardEl.addEventListener("transitionend", onEnd);
+  };
+
+  allCards.forEach((card) => {
+    card.addEventListener("click", () => openCard(card));
+  });
+
+  lightbox?.addEventListener("click", (event) => {
+    if ((event.target as HTMLElement).closest("[data-close]")) closeCard();
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && lightbox?.classList.contains("is-open")) closeCard();
   });
 </script>

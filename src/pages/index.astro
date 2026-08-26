@@ -521,26 +521,4 @@ const templateProjects = projectLibrary.filter((project) => project.deliveryType
     </div>
   </section>
 
-  <script>
-    const tabsEl = document.getElementById("project-tabs");
-    const galleryEl = document.getElementById("project-gallery");
-
-    if (tabsEl && galleryEl) {
-      const cards = Array.from(galleryEl.querySelectorAll<HTMLElement>("[data-category]"));
-
-      tabsEl.addEventListener("click", (event) => {
-        const button = (event.target as HTMLElement).closest<HTMLButtonElement>(".project-tab");
-        if (!button) return;
-
-        tabsEl.querySelectorAll(".project-tab").forEach((tab) => tab.classList.remove("is-active"));
-        button.classList.add("is-active");
-
-        const filter = button.dataset.filter ?? "All";
-        cards.forEach((card) => {
-          const matches = filter === "All" || card.dataset.category === filter;
-          card.style.display = matches ? "" : "none";
-        });
-      });
-    }
-  </script>
 </BaseLayout>
