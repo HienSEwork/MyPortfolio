@@ -1,6 +1,6 @@
 ---
 import BaseLayout from "../components/layout/BaseLayout.astro";
-import mePortrait from "../assets/me.png";
+import HeroMotion from "../components/hero/HeroMotion.jsx";
 import ProjectLibrary from "../components/ProjectLibrary.astro";
 import { projectLibrary } from "../data/projects";
 
@@ -111,8 +111,8 @@ const doneProjects = projectLibrary.filter((project) => project.deliveryType !==
 const templateProjects = projectLibrary.filter((project) => project.deliveryType === "similar");
 ---
 <BaseLayout title={meta.title} description={meta.description} url={meta.url}>
-  <header class="mx-auto flex w-[min(1120px,92vw)] justify-center pt-6">
-    <nav class="nav-glow flex flex-wrap items-center gap-6 rounded-full border border-white/20 bg-white/90 px-8 py-3 text-sm font-semibold text-ink-2 shadow-[0_16px_40px_rgba(20,16,40,0.12)] dark:border-white/10 dark:bg-white/5 dark:text-white">
+  <header class="pointer-events-none absolute inset-x-0 top-0 z-20 mx-auto flex w-[min(1120px,92vw)] justify-center pt-6">
+    <nav class="nav-glow pointer-events-auto flex flex-wrap items-center gap-6 rounded-full border border-white/20 bg-white/90 px-8 py-3 text-sm font-semibold text-ink-2 shadow-[0_16px_40px_rgba(20,16,40,0.12)] dark:border-white/10 dark:bg-white/5 dark:text-white">
       <a href="#about">About</a>
       <a href="#projects">Projects</a>
       <a href="#skills">Skills</a>
@@ -122,101 +122,7 @@ const templateProjects = projectLibrary.filter((project) => project.deliveryType
     </nav>
   </header>
 
-  <section class="mx-auto grid w-[min(1120px,92vw)] items-center gap-8 border-y border-white/60 py-10 dark:border-white/10 lg:grid-cols-[0.8fr_1.2fr]">
-    <div class="relative mx-auto w-full max-w-[380px] aspect-[4/5] overflow-hidden bg-transparent p-0 shadow-none lg:mx-0">
-      <img
-        src={mePortrait.src}
-        alt="Hien Nguyen Ngoc portrait"
-        class="absolute inset-0 h-full w-full object-cover object-top mix-blend-normal dark:mix-blend-screen"
-        width="380"
-        height="475"
-        loading="lazy"
-        decoding="async"
-      />
-    </div>
-    <div class="reveal" style="--delay: 80ms;">
-      <h2 class="section-title font-display text-[clamp(1.8rem,3vw,2.4rem)] text-ink-2 dark:text-white">
-        Hien Nguyen Ngoc, Fullstack Web Developer
-      </h2>
-      <p class="mt-4 text-muted dark:text-slate-200">
-        I build conversion-focused landing pages for startups and small teams, shipping fast with clean code, SEO-ready
-        structure, and performance tuning. I handle end-to-end delivery from UI design to launch, helping clients go live
-        quickly and convert more visitors.
-      </p>
-    </div>
-  </section>
-
-  <section class="relative overflow-visible pb-28 pt-16">
-    <div class="floating-shapes">
-      <div class="shape one"></div>
-      <div class="shape two"></div>
-      <div class="shape three"></div>
-    </div>
-    <div class="absolute inset-0 opacity-60"></div>
-    <div class="relative z-10 mx-auto w-[min(1120px,92vw)]">
-      <div class="grid items-center gap-10 lg:grid-cols-[1.15fr_0.85fr]">
-        <div class="min-w-0 reveal" style="--delay: 80ms;">
-            <h1 class="section-title font-display text-[clamp(2.6rem,4.2vw,4.2rem)] leading-tight text-ink-2 dark:text-white">
-              High-Conversion Landing Pages with Motion &amp; Performance
-            </h1>
-              <div class="mt-6 flex flex-wrap items-center gap-4">
-                <a
-                  class="rounded-full border border-transparent bg-gradient-to-br from-lavender-3 to-[#7e68d4] px-6 py-3 font-semibold text-white shadow-[0_14px_30px_rgba(126,104,212,0.35)] transition hover:-translate-y-0.5"
-                  href="#contact"
-                >
-                  Book a Free 15-min Call
-                </a>
-                <a
-                  class="rounded-full border border-[rgba(126,104,212,0.25)] bg-white px-6 py-3 font-semibold text-ink-2 transition hover:-translate-y-0.5 dark:border-white/20 dark:bg-white/10 dark:text-white"
-                  href="#pricing"
-                >
-                  View Pricing
-                </a>
-                <a
-                  class="rounded-full border border-white/40 bg-white/70 px-6 py-3 font-semibold text-ink-2 shadow-[0_10px_24px_rgba(30,20,60,0.18)] transition hover:-translate-y-0.5 dark:border-white/20 dark:bg-white/10 dark:text-white"
-                  href="#contact"
-                >
-                  Contact Me
-                </a>
-              </div>
-            <div class="mt-8 grid gap-4 sm:grid-cols-3">
-              <div class="rounded-2xl border border-white/20 bg-white/60 px-4 py-3 text-sm text-muted shadow-[0_10px_30px_rgba(24,18,44,0.12)] dark:border-white/10 dark:bg-white/5 dark:text-slate-200">
-                <span class="block text-xs uppercase tracking-[0.2em] text-muted">Delivery</span>
-                7-21 days typical
-              </div>
-              <div class="rounded-2xl border border-white/20 bg-white/60 px-4 py-3 text-sm text-muted shadow-[0_10px_30px_rgba(24,18,44,0.12)] dark:border-white/10 dark:bg-white/5 dark:text-slate-200">
-                <span class="block text-xs uppercase tracking-[0.2em] text-muted">Focus</span>
-                UX + performance
-              </div>
-              <div class="rounded-2xl border border-white/20 bg-white/60 px-4 py-3 text-sm text-muted shadow-[0_10px_30px_rgba(24,18,44,0.12)] dark:border-white/10 dark:bg-white/5 dark:text-slate-200">
-                <span class="block text-xs uppercase tracking-[0.2em] text-muted">Output</span>
-                SEO-ready builds
-              </div>
-            </div>
-          </div>
-          <div class="relative min-w-0 w-full lg:max-w-[420px] lg:justify-self-end reveal" style="--delay: 160ms;">
-            <div class="absolute -right-6 -top-6 h-20 w-20 rounded-full bg-[radial-gradient(circle_at_center,rgba(167,139,250,0.45),transparent_60%)] blur-xl"></div>
-            <div class="grid gap-4">
-              <div class="rounded-3xl border border-white/15 bg-white/60 p-5 text-sm text-muted shadow-[0_12px_30px_rgba(20,14,38,0.18)] dark:border-white/10 dark:bg-white/5 dark:text-slate-200">
-                <span class="mb-2 inline-flex h-8 w-8 items-center justify-center rounded-full bg-[#7e68d4]/20 text-xs font-semibold text-[#e6ddff]">01</span>
-                <strong class="block text-base text-ink-2 dark:text-white">Motion-ready builds</strong>
-                Scroll-friendly sections, hover polish, and smooth transitions for premium feel.
-              </div>
-              <div class="rounded-3xl border border-white/15 bg-white/60 p-5 text-sm text-muted shadow-[0_12px_30px_rgba(20,14,38,0.18)] dark:border-white/10 dark:bg-white/5 dark:text-slate-200">
-                <span class="mb-2 inline-flex h-8 w-8 items-center justify-center rounded-full bg-[#7e68d4]/20 text-xs font-semibold text-[#e6ddff]">02</span>
-                <strong class="block text-base text-ink-2 dark:text-white">Performance first</strong>
-                SEO structure + Core Web Vitals to keep your landing page fast and discoverable.
-              </div>
-              <div class="rounded-3xl border border-white/15 bg-white/60 p-5 text-sm text-muted shadow-[0_12px_30px_rgba(20,14,38,0.18)] dark:border-white/10 dark:bg-white/5 dark:text-slate-200">
-                <span class="mb-2 inline-flex h-8 w-8 items-center justify-center rounded-full bg-[#7e68d4]/20 text-xs font-semibold text-[#e6ddff]">03</span>
-                <strong class="block text-base text-ink-2 dark:text-white">Founder-friendly workflow</strong>
-                Clear milestones, fast iterations, and transparent delivery windows.
-              </div>
-            </div>
-          </div>
-      </div>
-    </div>
-  </section>
+  <HeroMotion client:load />
 
   <section id="about" class="py-16 overflow-visible">
     <div class="mx-auto w-[min(1120px,92vw)]">
@@ -225,6 +131,11 @@ const templateProjects = projectLibrary.filter((project) => project.deliveryType
           <h2 class="section-title font-display text-[clamp(1.9rem,3.2vw,2.7rem)] text-ink-2 dark:text-white">
             A focused delivery model for fast, premium launches.
           </h2>
+          <p class="mt-4 text-muted dark:text-slate-200">
+            I'm Hien Nguyen Ngoc, a fullstack web developer building conversion-focused landing pages for startups and
+            small teams — shipping fast with clean code, SEO-ready structure, and performance tuning, end-to-end from
+            UI design to launch.
+          </p>
           <div class="mt-6 grid gap-4 text-sm text-muted dark:text-slate-200">
             <div class="flex gap-4">
               <span class="inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/30 bg-white/70 text-sm font-semibold text-ink-2 shadow-[0_10px_24px_rgba(20,14,38,0.12)] dark:border-white/10 dark:bg-white/5 dark:text-white">01</span>

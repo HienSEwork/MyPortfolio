@@ -114,6 +114,69 @@ a {
   text-decoration: none;
 }
 
+.hero-cinematic {
+  color-scheme: dark;
+}
+
+.hero-cinematic .grain {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.3;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 160px 160px;
+}
+
+@keyframes float-a {
+  0%, 100% { transform: translateY(0) translateX(0); }
+  50% { transform: translateY(-16px) translateX(4px); }
+}
+@keyframes float-b {
+  0%, 100% { transform: translateY(0) translateX(0); }
+  50% { transform: translateY(12px) translateX(-6px); }
+}
+@keyframes float-c {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-9px); }
+}
+@keyframes breathe {
+  0%, 100% { opacity: 0.5; transform: scale(1); }
+  50% { opacity: 0.85; transform: scale(1.05); }
+}
+@keyframes drift-rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+@keyframes drift-rotate-rev {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(-360deg); }
+}
+@keyframes bob {
+  0%, 100% { transform: translateY(0); opacity: 0.6; }
+  50% { transform: translateY(8px); opacity: 1; }
+}
+
+.anim-float-a { animation: float-a 9s ease-in-out infinite; }
+.anim-float-b { animation: float-b 11s ease-in-out infinite; }
+.anim-float-c { animation: float-c 7.5s ease-in-out infinite; }
+.anim-breathe { animation: breathe 8s ease-in-out infinite; }
+.anim-drift { animation: drift-rotate 60s linear infinite; }
+.anim-drift-rev { animation: drift-rotate-rev 80s linear infinite; }
+.anim-bob { animation: bob 2.2s ease-in-out infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  .anim-float-a,
+  .anim-float-b,
+  .anim-float-c,
+  .anim-breathe,
+  .anim-drift,
+  .anim-drift-rev,
+  .anim-bob {
+    animation: none !important;
+  }
+}
+
 .floating-shapes {
   position: absolute;
   inset: 0;
