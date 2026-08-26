@@ -1,0 +1,104 @@
+---
+import type { Project } from "../data/projects";
+
+type Props = {
+  projects: Project[];
+};
+
+const { projects } = Astro.props;
+
+const categoryAccent: Record<Project["category"], string> = {
+  Business: "148 120 255",
+  "E-commerce": "110 231 168",
+  Game: "255 158 122",
+  Creative: "125 211 252",
+};
+
+const getHost = (url?: string) => {
+  if (!url) return null;
+  try {
+    return new URL(url).hostname.replace(/^www\./, "");
+  } catch {
+    return url;
+  }
+};
+---
+
+<div class="showcase-grid">
+  {
+    projects.map((project, index) => {
+      const host = getHost(project.websiteURL);
+      const accent = categoryAccent[project.category];
+      const Tag = project.websiteURL ? "a" : "div";
+      const linkProps = project.websiteURL
+        ? { href: project.websiteURL, target: "_blank", rel: "noreferrer" }
+        : {};
+
+      return (
+        <article
+          class="showcase-card"
+          data-category={project.category}
+          style={`--accent: ${accent}; --delay: ${index * 70}ms;`}
+        >
+          <Tag class="showcase-card__link" {...linkProps}>
+            <div class="showcase-card__media">
+              {project.imageUrl ? (
+                <img src={project.imageUrl} alt={project.projectName} loading="lazy" decoding="async" />
+              ) : null}
+              <span class="showcase-card__category">{project.category}</span>
+              {project.deliveryType === "similar" ? (
+                <span class="showcase-card__badge">Template</span>
+              ) : null}
+            </div>
+            <div class="showcase-card__body">
+              <div class="showcase-card__top">
+                <h3>{project.projectName}</h3>
+                {host ? <span class="showcase-card__host">{host}</span> : null}
+              </div>
+              <p>{project.description}</p>
+              <div class="showcase-card__tech">
+                {project.technologies.map((tech) => (
+                  <span>{tech}</span>
+                ))}
+              </div>
+              <div class="showcase-card__footer">
+                <span class="showcase-card__role">{project.role}</span>
+                {project.websiteURL ? (
+                  <span class="showcase-card__cta">Visit site →</span>
+                ) : (
+                  <span class="showcase-card__cta showcase-card__cta--muted">Private</span>
+                )}
+              </div>
+            </div>
+          </Tag>
+        </article>
+      );
+    })
+  }
+</div>
+
+<script>
+  const cards = document.querySelectorAll<HTMLElement>(".showcase-card");
+  const strength = 9;
+
+  cards.forEach((card) => {
+    const handleMove = (event: PointerEvent) => {
+      const rect = card.getBoundingClientRect();
+      const px = (event.clientX - rect.left) / rect.width - 0.5;
+      const py = (event.clientY - rect.top) / rect.height - 0.5;
+      card.style.setProperty("--rx", `${(-py * strength).toFixed(2)}deg`);
+      card.style.setProperty("--ry", `${(px * strength).toFixed(2)}deg`);
+      card.style.setProperty("--mx", `${(px * 100 + 50).toFixed(1)}%`);
+      card.style.setProperty("--my", `${(py * 100 + 50).toFixed(1)}%`);
+    };
+    const reset = () => {
+      card.style.setProperty("--rx", "0deg");
+      card.style.setProperty("--ry", "0deg");
+    };
+
+    if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      card.addEventListener("pointermove", handleMove);
+      card.addEventListener("pointerleave", reset);
+    }
+  });
+</script>

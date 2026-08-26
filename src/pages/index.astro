@@ -2,6 +2,7 @@
 import BaseLayout from "../components/layout/BaseLayout.astro";
 import HeroMotion from "../components/hero/HeroMotion.jsx";
 import ProjectLibrary from "../components/ProjectLibrary.astro";
+import ProjectShowcase from "../components/ProjectShowcase.astro";
 import { projectLibrary } from "../data/projects";
 
 const meta = {
@@ -280,7 +281,7 @@ const templateProjects = projectLibrary.filter((project) => project.deliveryType
         <button class="project-tab" type="button" data-filter="Game">Game</button>
       </div>
       <div id="project-gallery" class="mt-8">
-        <ProjectLibrary projects={doneProjects} showLinks={false} />
+        <ProjectShowcase projects={doneProjects} />
       </div>
     </div>
   </section>
@@ -525,7 +526,7 @@ const templateProjects = projectLibrary.filter((project) => project.deliveryType
     const galleryEl = document.getElementById("project-gallery");
 
     if (tabsEl && galleryEl) {
-      const cards = Array.from(galleryEl.querySelectorAll<HTMLElement>(".gallery-card"));
+      const cards = Array.from(galleryEl.querySelectorAll<HTMLElement>("[data-category]"));
 
       tabsEl.addEventListener("click", (event) => {
         const button = (event.target as HTMLElement).closest<HTMLButtonElement>(".project-tab");
