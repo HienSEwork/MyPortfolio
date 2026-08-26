@@ -15,6 +15,18 @@ import vinhomesRoyalIslandImage from "../assets/project_images/vinhomesroyalisla
 import brillianceImagingImage from "../assets/project_images/brillianceimaging.png";
 import aquaCareCrmImage from "../assets/project_images/aquacarecrm.png";
 
+import botaniclaneLogo from "../assets/logos/botaniclane.png";
+import shopInChinaLogo from "../assets/logos/shopinchina.png";
+import wagonmateLogo from "../assets/logos/wagonmate.png";
+import thanhNhacChauLogo from "../assets/logos/thanhnhacchau.png";
+import wonderLabLogo from "../assets/logos/wonderlab.png";
+import vianodecorLogo from "../assets/logos/vianodecor.png";
+import gioiTruyenLogo from "../assets/logos/gioitruyen.png";
+import joeHoangLogo from "../assets/logos/joehoang.png";
+import vinhomesRoyalIslandLogo from "../assets/logos/vinhomesroyalisland.png";
+import brillianceImagingLogo from "../assets/logos/brillianceimaging.png";
+import aquaCareCrmLogo from "../assets/logos/aquacarecrm.png";
+
 export interface Project {
   projectName: string;
   category: ProjectCategory;
@@ -24,6 +36,7 @@ export interface Project {
   role: string;
   year?: number;
   imageUrl?: string;
+  logoUrl?: string;
   layout?: "wide" | "tall" | "base";
   deliveryType?: "done" | "similar";
 }
@@ -37,6 +50,7 @@ export const projectLibrary: Project[] = [
     description: "Fullstack website and logo design.",
     role: "Fullstack Developer & Designer",
     imageUrl: botaniclaneImage.src,
+    logoUrl: botaniclaneLogo.src,
     layout: "wide",
     deliveryType: "done",
   },
@@ -48,6 +62,7 @@ export const projectLibrary: Project[] = [
     description: "Custom layout based on Figma design.",
     role: "Frontend Developer",
     imageUrl: shopInChinaImage.src,
+    logoUrl: shopInChinaLogo.src,
     layout: "tall",
     deliveryType: "done",
   },
@@ -59,6 +74,7 @@ export const projectLibrary: Project[] = [
     description: "Custom layout and image sourcing.",
     role: "Frontend Developer",
     imageUrl: wagonmateImage.src,
+    logoUrl: wagonmateLogo.src,
     deliveryType: "done",
   },
   {
@@ -69,6 +85,7 @@ export const projectLibrary: Project[] = [
     description: "Sales website.",
     role: "Fullstack Developer",
     imageUrl: thanhNhacChauImage.src,
+    logoUrl: thanhNhacChauLogo.src,
     layout: "tall",
     deliveryType: "done",
   },
@@ -80,6 +97,7 @@ export const projectLibrary: Project[] = [
     description: "Refactor project with new design.",
     role: "Frontend Developer",
     imageUrl: wonderLabImage.src,
+    logoUrl: wonderLabLogo.src,
     layout: "wide",
     deliveryType: "done",
   },
@@ -91,6 +109,7 @@ export const projectLibrary: Project[] = [
     description: "Design layout and elements.",
     role: "Designer",
     imageUrl: vianodecorImage.src,
+    logoUrl: vianodecorLogo.src,
     deliveryType: "done",
   },
   {
@@ -131,6 +150,7 @@ export const projectLibrary: Project[] = [
     description: "Web novel reading platform with rankings, categories, and audio chapters.",
     role: "Developer",
     imageUrl: gioiTruyenImage.src,
+    logoUrl: gioiTruyenLogo.src,
     deliveryType: "done",
   },
   {
@@ -142,6 +162,7 @@ export const projectLibrary: Project[] = [
     role: "Full Design & Development",
     year: 2026,
     imageUrl: joeHoangImage.src,
+    logoUrl: joeHoangLogo.src,
     deliveryType: "done",
   },
   {
@@ -153,6 +174,7 @@ export const projectLibrary: Project[] = [
     role: "Frontend Developer",
     year: 2026,
     imageUrl: vinhomesRoyalIslandImage.src,
+    logoUrl: vinhomesRoyalIslandLogo.src,
     layout: "wide",
     deliveryType: "done",
   },
@@ -165,6 +187,7 @@ export const projectLibrary: Project[] = [
     role: "Full Design & Development",
     year: 2026,
     imageUrl: brillianceImagingImage.src,
+    logoUrl: brillianceImagingLogo.src,
     layout: "tall",
     deliveryType: "done",
   },
@@ -175,6 +198,7 @@ export const projectLibrary: Project[] = [
     description: "Internal CRM for scheduling, technician dispatch, and invoicing.",
     role: "Fullstack Developer",
     imageUrl: aquaCareCrmImage.src,
+    logoUrl: aquaCareCrmLogo.src,
     layout: "wide",
     deliveryType: "done",
   },

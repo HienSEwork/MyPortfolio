@@ -38,36 +38,39 @@ const getHost = (url?: string) => {
         <article
           class="showcase-card"
           data-category={project.category}
-          style={`--accent: ${accent}; --delay: ${index * 70}ms;`}
+          style={`--accent: ${accent}; --delay: ${index * 60}ms; --deal: ${index};`}
         >
           <Tag class="showcase-card__link" {...linkProps}>
-            <div class="showcase-card__media">
-              {project.imageUrl ? (
-                <img src={project.imageUrl} alt={project.projectName} loading="lazy" decoding="async" />
-              ) : null}
-              <span class="showcase-card__category">{project.category}</span>
-              {project.deliveryType === "similar" ? (
-                <span class="showcase-card__badge">Template</span>
-              ) : null}
-            </div>
-            <div class="showcase-card__body">
-              <div class="showcase-card__top">
+            <span class="showcase-card__spin" aria-hidden="true" />
+            <div class="showcase-card__inner">
+              <div class="showcase-card__logo">
+                {project.logoUrl ? (
+                  <img src={project.logoUrl} alt={project.projectName} loading="lazy" decoding="async" />
+                ) : project.imageUrl ? (
+                  <img src={project.imageUrl} alt={project.projectName} loading="lazy" decoding="async" />
+                ) : null}
+                <span class="showcase-card__category">{project.category}</span>
+                {project.deliveryType === "similar" ? (
+                  <span class="showcase-card__badge">Template</span>
+                ) : null}
+              </div>
+              <div class="showcase-card__body">
                 <h3>{project.projectName}</h3>
                 {host ? <span class="showcase-card__host">{host}</span> : null}
-              </div>
-              <p>{project.description}</p>
-              <div class="showcase-card__tech">
-                {project.technologies.map((tech) => (
-                  <span>{tech}</span>
-                ))}
-              </div>
-              <div class="showcase-card__footer">
-                <span class="showcase-card__role">{project.role}</span>
-                {project.websiteURL ? (
-                  <span class="showcase-card__cta">Visit site →</span>
-                ) : (
-                  <span class="showcase-card__cta showcase-card__cta--muted">Private</span>
-                )}
+                <div class="showcase-card__tech">
+                  {project.technologies.slice(0, 2).map((tech) => (
+                    <span>{tech}</span>
+                  ))}
+                  {project.technologies.length > 2 ? <span>+{project.technologies.length - 2}</span> : null}
+                </div>
+                <div class="showcase-card__footer">
+                  <span class="showcase-card__role">{project.role}</span>
+                  {project.websiteURL ? (
+                    <span class="showcase-card__cta">Visit →</span>
+                  ) : (
+                    <span class="showcase-card__cta showcase-card__cta--muted">Private</span>
+                  )}
+                </div>
               </div>
             </div>
           </Tag>
@@ -79,7 +82,7 @@ const getHost = (url?: string) => {
 
 <script>
   const cards = document.querySelectorAll<HTMLElement>(".showcase-card");
-  const strength = 9;
+  const strength = 6;
 
   cards.forEach((card) => {
     const handleMove = (event: PointerEvent) => {
@@ -88,8 +91,6 @@ const getHost = (url?: string) => {
       const py = (event.clientY - rect.top) / rect.height - 0.5;
       card.style.setProperty("--rx", `${(-py * strength).toFixed(2)}deg`);
       card.style.setProperty("--ry", `${(px * strength).toFixed(2)}deg`);
-      card.style.setProperty("--mx", `${(px * 100 + 50).toFixed(1)}%`);
-      card.style.setProperty("--my", `${(py * 100 + 50).toFixed(1)}%`);
     };
     const reset = () => {
       card.style.setProperty("--rx", "0deg");
