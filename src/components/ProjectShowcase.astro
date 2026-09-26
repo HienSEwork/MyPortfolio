@@ -26,46 +26,60 @@ const getHost = (url?: string) => {
 };
 ---
 
-<div class="deck-wrap">
-  <div class="deck" id="project-deck">
-    {
-      projects.map((project, index) => {
-        const accent = categoryAccent[project.category];
-        const host = getHost(project.websiteURL);
-        const face = project.logoUrl ?? project.imageUrl ?? "";
-        const media = project.imageUrl ?? project.logoUrl ?? "";
+<div class="pgrid" id="project-grid">
+  {
+    projects.map((project) => {
+      const accent = categoryAccent[project.category];
+      const host = getHost(project.websiteURL);
+      const media = project.imageUrl ?? project.logoUrl ?? "";
+      const status = project.status ?? (project.deliveryType === "similar" ? "Template" : "");
+      const extraTech = project.technologies.length - 3;
 
-        return (
-          <button
-            type="button"
-            class="deck-card"
-            data-category={project.category}
-            data-name={project.projectName}
-            data-desc={project.description}
-            data-role={project.role}
-            data-host={host ?? ""}
-            data-url={project.websiteURL ?? ""}
-            data-tech={project.technologies.join(",")}
-            data-logo={face}
-            data-image={media}
-            data-status={project.status ?? ""}
-            data-gallery={JSON.stringify(project.gallery ?? (media ? [media] : []))}
-            data-highlights={JSON.stringify(project.highlights ?? [])}
-            style={`--accent: ${accent}; --order: ${index};`}
-            aria-label={`Open ${project.projectName}`}
-          >
-            <span class="deck-card__face">
-              <span class="deck-card__name">{project.projectName}</span>
-              <span class={`deck-card__plate ${project.logoUrl ? "" : "is-shot"}`}>
-                {face ? <img src={face} alt={project.projectName} loading="lazy" decoding="async" /> : null}
-              </span>
-              <span class="deck-card__category">{project.category}</span>
+      return (
+        <button
+          type="button"
+          class="pcard"
+          data-category={project.category}
+          data-name={project.projectName}
+          data-desc={project.description}
+          data-role={project.role}
+          data-host={host ?? ""}
+          data-url={project.websiteURL ?? ""}
+          data-tech={project.technologies.join(",")}
+          data-logo={project.logoUrl ?? ""}
+          data-image={media}
+          data-status={status}
+          data-gallery={JSON.stringify(project.gallery ?? (media ? [media] : []))}
+          data-highlights={JSON.stringify(project.highlights ?? [])}
+          style={`--accent: ${accent};`}
+          aria-label={`Open ${project.projectName}`}
+        >
+          <span class="pcard__media">
+            {media ? <img src={media} alt="" loading="lazy" decoding="async" /> : null}
+            {status ? <span class="pcard__status">{status}</span> : null}
+          </span>
+          <span class="pcard__body">
+            <span class="pcard__kicker">
+              <i aria-hidden="true"></i>
+              {project.category}
+              {host ? <em>{host}</em> : null}
             </span>
-          </button>
-        );
-      })
-    }
-  </div>
+            <span class="pcard__name">{project.projectName}</span>
+            <span class="pcard__desc">{project.description}</span>
+            <span class="pcard__tech">
+              {project.technologies.slice(0, 3).map((tech) => <span>{tech}</span>)}
+              {extraTech > 0 ? <span>+{extraTech}</span> : null}
+            </span>
+          </span>
+        </button>
+      );
+    })
+  }
+</div>
+<div class="pgrid__more">
+  <button type="button" class="pricing-cta" id="project-more">
+    Show all projects (<span id="project-more-count"></span>)
+  </button>
 </div>
 
 <div class="lightbox" id="project-lightbox" aria-hidden="true">
@@ -104,54 +118,38 @@ const getHost = (url?: string) => {
 </div>
 
 <script>
-  const CARD_WIDTH = 224;
-  const OVERLAP_DESKTOP = 78;
-  const OVERLAP_MOBILE = 56;
-  const AMPLITUDE = 34;
+  const LIMIT = 9;
+  const allCards = Array.from(document.querySelectorAll<HTMLButtonElement>(".pcard"));
+  const moreBtn = document.getElementById("project-more");
+  const moreCount = document.getElementById("project-more-count");
+  let activeFilter = "All";
+  let expanded = false;
 
-  const track = document.getElementById("project-deck") as HTMLElement | null;
-  const allCards = Array.from(document.querySelectorAll<HTMLButtonElement>(".deck-card"));
-
-  const layoutDeck = () => {
-    if (!track) return;
-    const overlap = window.innerWidth < 640 ? OVERLAP_MOBILE : OVERLAP_DESKTOP;
-    const visible = allCards.filter((card) => card.style.display !== "none");
-    const n = visible.length;
-
-    visible.forEach((card, i) => {
-      const t = n > 1 ? i / (n - 1) : 0.5;
-      const y = Math.sin(t * Math.PI * 1.15 - 0.25) * AMPLITUDE;
-      const rot = (t - 0.5) * 18;
-      card.style.left = `${i * overlap}px`;
-      card.style.zIndex = String(i + 1);
-      card.style.setProperty("--card-y", `${y}px`);
-      card.style.setProperty("--card-rot", `${rot}deg`);
-    });
-
-    track.style.width = `${Math.max(0, n - 1) * overlap + CARD_WIDTH}px`;
+  // Show the first LIMIT matches; "Show all" reveals the rest
+  const applyFilter = () => {
+    const matches = allCards.filter((card) => activeFilter === "All" || card.dataset.category === activeFilter);
+    allCards.forEach((card) => (card.hidden = true));
+    matches.forEach((card, i) => (card.hidden = !expanded && i >= LIMIT));
+    if (moreCount) moreCount.textContent = String(matches.length);
+    moreBtn?.parentElement?.toggleAttribute("hidden", expanded || matches.length <= LIMIT);
   };
 
-  layoutDeck();
-  window.addEventListener("resize", layoutDeck);
+  applyFilter();
+  moreBtn?.addEventListener("click", () => {
+    expanded = true;
+    applyFilter();
+  });
 
-  // Category tab filtering
   const tabsEl = document.getElementById("project-tabs");
-  if (tabsEl) {
-    tabsEl.addEventListener("click", (event) => {
-      const button = (event.target as HTMLElement).closest<HTMLButtonElement>(".project-tab");
-      if (!button) return;
-
-      tabsEl.querySelectorAll(".project-tab").forEach((tab) => tab.classList.remove("is-active"));
-      button.classList.add("is-active");
-
-      const filter = button.dataset.filter ?? "All";
-      allCards.forEach((card) => {
-        const matches = filter === "All" || card.dataset.category === filter;
-        card.style.display = matches ? "" : "none";
-      });
-      layoutDeck();
-    });
-  }
+  tabsEl?.addEventListener("click", (event) => {
+    const button = (event.target as HTMLElement).closest<HTMLButtonElement>(".project-tab");
+    if (!button) return;
+    tabsEl.querySelectorAll(".project-tab").forEach((tab) => tab.classList.remove("is-active"));
+    button.classList.add("is-active");
+    activeFilter = button.dataset.filter ?? "All";
+    expanded = false;
+    applyFilter();
+  });
 
   // Zoom-to-center lightbox (FLIP animation)
   const lightbox = document.getElementById("project-lightbox") as HTMLElement | null;

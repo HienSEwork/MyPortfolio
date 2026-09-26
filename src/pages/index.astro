@@ -1,7 +1,6 @@
 ---
 import BaseLayout from "../components/layout/BaseLayout.astro";
 import HeroMotion from "../components/hero/HeroMotion.jsx";
-import ProjectLibrary from "../components/ProjectLibrary.astro";
 import ProjectShowcase from "../components/ProjectShowcase.astro";
 import { projectLibrary } from "../data/projects";
 
@@ -115,10 +114,13 @@ const groupedSkills = skillOrder.map((group) => {
   return { title: group.title, items };
 });
 
-const deckProjects = projectLibrary.filter((project) => project.deliveryType !== "similar");
-const doneProjects = projectLibrary.filter((project) => project.deliveryType === "done");
-const academicProjects = projectLibrary.filter((project) => project.deliveryType === "academic");
-const templateProjects = projectLibrary.filter((project) => project.deliveryType === "similar");
+// Grid order: featured work first, then client/product work, academic builds, and templates last
+const deliveryRank = { done: 0, academic: 1, similar: 2 } as const;
+const gridProjects = [...projectLibrary].sort(
+  (a, b) =>
+    Number(Boolean(b.featured)) - Number(Boolean(a.featured)) ||
+    deliveryRank[a.deliveryType ?? "done"] - deliveryRank[b.deliveryType ?? "done"]
+);
 const featuredProjects = projectLibrary.filter((project) => project.featured);
 
 const findProject = (prefix: string) => {
@@ -175,7 +177,7 @@ const services = [
     title: "Learn by building real software",
     text: "1-on-1 or group coaching in JavaScript, Java, Python, C#, React and SQL, plus guidance for coursework, capstones and reports — with clean architecture and tests.",
     points: ["Programming tutoring", "Coursework & capstone guidance", "Code review & debugging", "Flexible online schedule"],
-    proof: ["Internship Management", "LibraryMS", "Netflix User Segmentation"],
+    proof: ["Internship Management", "DentalPro", "Netflix User Segmentation"],
     cta: "Book a session",
   },
 ].map((service) => ({ ...service, proof: service.proof.map(findProject) }));
@@ -188,7 +190,6 @@ const services = [
       <a href="#work">Work</a>
       <a href="#projects">Projects</a>
       <a href="#skills">Skills</a>
-      <a href="#portfolio">Library</a>
       <a href="#pricing">Pricing</a>
       <a href="#contact">Contact</a>
     </nav>
@@ -360,7 +361,7 @@ const services = [
         All Projects
       </h2>
       <p class="mt-4 max-w-2xl text-muted dark:text-slate-200">
-        Client work, products and academic builds — pick a card to see screenshots, highlights and the stack.
+        Client work, products and academic builds — open a card to browse its screenshots, highlights and stack.
       </p>
       <div id="project-tabs" class="mt-6 flex flex-wrap gap-3 text-xs font-semibold uppercase tracking-[0.2em] text-ink-2 dark:text-white">
         <button class="project-tab is-active" type="button" data-filter="All">All</button>
@@ -371,7 +372,7 @@ const services = [
         <button class="project-tab" type="button" data-filter="Academic">Academic</button>
       </div>
       <div id="project-gallery" class="mt-8">
-        <ProjectShowcase projects={deckProjects} />
+        <ProjectShowcase projects={gridProjects} />
       </div>
     </div>
   </section>
@@ -416,38 +417,6 @@ const services = [
             </div>
           ) : null
         )}
-    </div>
-  </section>
-
-  <section id="portfolio" class="py-16">
-    <div class="mx-auto w-[min(1120px,92vw)]">
-      <h2 class="section-title font-display text-[clamp(1.8rem,3vw,2.6rem)] text-ink-2 dark:text-white">
-        Project Library
-      </h2>
-      <div class="mt-8">
-        <h3 class="text-xs font-semibold uppercase tracking-[0.3em] text-muted dark:text-slate-300">
-          Completed Projects
-        </h3>
-        <div class="mt-6">
-          <ProjectLibrary projects={doneProjects} />
-        </div>
-      </div>
-      <div class="mt-12">
-        <h3 class="text-xs font-semibold uppercase tracking-[0.3em] text-muted dark:text-slate-300">
-          Academic &amp; Learning Projects
-        </h3>
-        <div class="mt-6">
-          <ProjectLibrary projects={academicProjects} showLinks={false} />
-        </div>
-      </div>
-      <div class="mt-12">
-        <h3 class="text-xs font-semibold uppercase tracking-[0.3em] text-muted dark:text-slate-300">
-          Template Projects
-        </h3>
-        <div class="mt-6">
-          <ProjectLibrary projects={templateProjects} />
-        </div>
-      </div>
     </div>
   </section>
 
