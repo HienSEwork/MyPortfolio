@@ -8,6 +8,8 @@ type Props = {
 const { projects } = Astro.props;
 
 const categoryAccent: Record<Project["category"], string> = {
+  "Web App": "244 199 106",
+  Academic: "251 146 196",
   Business: "148 120 255",
   "E-commerce": "110 231 168",
   Game: "255 158 122",
@@ -46,13 +48,15 @@ const getHost = (url?: string) => {
             data-tech={project.technologies.join(",")}
             data-logo={face}
             data-image={media}
-            data-status={project.deliveryType ?? ""}
+            data-status={project.status ?? ""}
+            data-gallery={JSON.stringify(project.gallery ?? (media ? [media] : []))}
+            data-highlights={JSON.stringify(project.highlights ?? [])}
             style={`--accent: ${accent}; --order: ${index};`}
             aria-label={`Open ${project.projectName}`}
           >
             <span class="deck-card__face">
               <span class="deck-card__name">{project.projectName}</span>
-              <span class="deck-card__plate">
+              <span class={`deck-card__plate ${project.logoUrl ? "" : "is-shot"}`}>
                 {face ? <img src={face} alt={project.projectName} loading="lazy" decoding="async" /> : null}
               </span>
               <span class="deck-card__category">{project.category}</span>
@@ -76,13 +80,16 @@ const getHost = (url?: string) => {
           <img id="lightbox-image" src="" alt="" />
           <span class="lightbox__logo"><img id="lightbox-logo" src="" alt="" /></span>
           <span class="lightbox__category" id="lightbox-category"></span>
+          <span class="lightbox__status" id="lightbox-status"></span>
         </div>
+        <div class="lightbox__thumbs" id="lightbox-thumbs"></div>
         <div class="lightbox__body">
           <div class="lightbox__top">
             <h3 id="lightbox-name"></h3>
             <span id="lightbox-host"></span>
           </div>
           <p id="lightbox-desc"></p>
+          <ul class="lightbox__highlights" id="lightbox-highlights"></ul>
           <div class="lightbox__tech" id="lightbox-tech"></div>
           <div class="lightbox__footer">
             <span id="lightbox-role"></span>
@@ -158,6 +165,18 @@ const getHost = (url?: string) => {
   const lbTech = document.getElementById("lightbox-tech");
   const lbRole = document.getElementById("lightbox-role");
   const lbVisit = document.getElementById("lightbox-visit") as HTMLAnchorElement | null;
+  const lbStatus = document.getElementById("lightbox-status");
+  const lbThumbs = document.getElementById("lightbox-thumbs");
+  const lbHighlights = document.getElementById("lightbox-highlights");
+
+  const parseList = (value?: string): string[] => {
+    try {
+      const list = JSON.parse(value ?? "[]");
+      return Array.isArray(list) ? list : [];
+    } catch {
+      return [];
+    }
+  };
 
   let activeTrigger: HTMLElement | null = null;
   const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -170,14 +189,53 @@ const getHost = (url?: string) => {
     return `translate(${dx}px, ${dy}px) scale(${sx}, ${sy})`;
   };
 
-  const openCard = (trigger: HTMLButtonElement) => {
+  // Zoom origin: the element the user clicked (a deck card or a "view screenshots" button elsewhere)
+  const openCard = (trigger: HTMLButtonElement, origin: HTMLElement = trigger) => {
     if (!lightbox || !frameEl || !lbImage || !lbLogo) return;
-    activeTrigger = trigger;
+    activeTrigger = origin;
 
     lbImage.src = trigger.dataset.image ?? "";
     lbImage.alt = trigger.dataset.name ?? "";
-    lbLogo.src = trigger.dataset.logo ?? "";
+    const logo = trigger.dataset.logo ?? "";
+    lbLogo.src = logo;
     lbLogo.alt = "";
+    lbLogo.parentElement?.toggleAttribute("hidden", !logo || logo === trigger.dataset.image);
+    if (lbStatus) {
+      lbStatus.textContent = trigger.dataset.status ?? "";
+      lbStatus.toggleAttribute("hidden", !trigger.dataset.status);
+    }
+
+    if (lbThumbs) {
+      lbThumbs.innerHTML = "";
+      const gallery = parseList(trigger.dataset.gallery);
+      lbThumbs.toggleAttribute("hidden", gallery.length < 2);
+      gallery.forEach((src, i) => {
+        const thumb = document.createElement("button");
+        thumb.type = "button";
+        thumb.className = `lightbox__thumb${i === 0 ? " is-active" : ""}`;
+        thumb.setAttribute("aria-label", `Screenshot ${i + 1}`);
+        const img = document.createElement("img");
+        img.src = src;
+        img.alt = "";
+        img.loading = "lazy";
+        thumb.appendChild(img);
+        thumb.addEventListener("click", () => {
+          lbImage.src = src;
+          lbThumbs.querySelectorAll(".lightbox__thumb").forEach((el) => el.classList.remove("is-active"));
+          thumb.classList.add("is-active");
+        });
+        lbThumbs.appendChild(thumb);
+      });
+    }
+
+    if (lbHighlights) {
+      lbHighlights.innerHTML = "";
+      parseList(trigger.dataset.highlights).forEach((text) => {
+        const li = document.createElement("li");
+        li.textContent = text;
+        lbHighlights.appendChild(li);
+      });
+    }
     if (lbCategory) lbCategory.textContent = trigger.dataset.category ?? "";
     if (lbName) lbName.textContent = trigger.dataset.name ?? "";
     if (lbHost) lbHost.textContent = trigger.dataset.host ?? "";
@@ -215,7 +273,8 @@ const getHost = (url?: string) => {
 
     if (reduced) return;
 
-    const startRect = trigger.getBoundingClientRect();
+    const startRect = origin.getBoundingClientRect();
+    if (!startRect.width || !startRect.height) return;
     requestAnimationFrame(() => {
       const endRect = frameEl.getBoundingClientRect();
       frameEl.style.transition = "none";
@@ -242,15 +301,15 @@ const getHost = (url?: string) => {
       activeTrigger = null;
     };
 
-    if (reduced || !activeTrigger) {
+    const originRect = activeTrigger?.getBoundingClientRect();
+    if (reduced || !activeTrigger || !originRect?.width) {
       finish();
       return;
     }
 
-    const startRect = activeTrigger.getBoundingClientRect();
     const currentRect = frameEl.getBoundingClientRect();
     frameEl.style.transition = "transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.35s ease";
-    frameEl.style.transform = flipFrom(startRect, currentRect);
+    frameEl.style.transform = flipFrom(originRect, currentRect);
     frameEl.style.opacity = "0";
 
     const onEnd = () => {
@@ -262,6 +321,13 @@ const getHost = (url?: string) => {
 
   allCards.forEach((card) => {
     card.addEventListener("click", () => openCard(card));
+  });
+
+  document.addEventListener("click", (event) => {
+    const opener = (event.target as HTMLElement).closest<HTMLElement>("[data-open-project]");
+    if (!opener) return;
+    const card = allCards.find((item) => item.dataset.name === opener.dataset.openProject);
+    if (card) openCard(card, opener);
   });
 
   lightbox?.addEventListener("click", (event) => {

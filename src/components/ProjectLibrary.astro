@@ -9,6 +9,8 @@ type Props = {
 const { projects, showLinks = true } = Astro.props;
 
 const categoryAccents: Record<Project["category"], string> = {
+  "Web App": "244 199 106",
+  Academic: "251 146 196",
   Business: "148 120 255",
   "E-commerce": "106 211 106",
   Game: "255 156 120",
@@ -18,6 +20,7 @@ const categoryAccents: Record<Project["category"], string> = {
 const deliveryLabel = (type?: Project["deliveryType"]) => {
   if (type === "similar") return "Template";
   if (type === "done") return "Completed";
+  if (type === "academic") return "Academic";
   return "";
 };
 

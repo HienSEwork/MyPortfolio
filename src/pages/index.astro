@@ -8,8 +8,8 @@ import { projectLibrary } from "../data/projects";
 const meta = {
   title: "Hien Nguyen Ngoc | Full-Stack WebApp Developer",
   description:
-    "I help SMEs, startups & businesses build scalable, secure, high-performance digital products — landing pages, enterprise systems (ERP, CRM, SaaS), and programming mentoring.",
-  url: "https://example.com",
+    "I help SMEs, startups & businesses build scalable, secure, high-performance digital products — web apps, CRM/ERP systems, landing pages, desktop apps, AI integrations and programming mentoring.",
+  url: "https://www.hiendevweb.com/",
 };
 
 const excludedSkills = new Set(["me"]);
@@ -115,14 +115,77 @@ const groupedSkills = skillOrder.map((group) => {
   return { title: group.title, items };
 });
 
-const doneProjects = projectLibrary.filter((project) => project.deliveryType !== "similar");
+const deckProjects = projectLibrary.filter((project) => project.deliveryType !== "similar");
+const doneProjects = projectLibrary.filter((project) => project.deliveryType === "done");
+const academicProjects = projectLibrary.filter((project) => project.deliveryType === "academic");
 const templateProjects = projectLibrary.filter((project) => project.deliveryType === "similar");
+const featuredProjects = projectLibrary.filter((project) => project.featured);
+
+const findProject = (prefix: string) => {
+  const project = projectLibrary.find((item) => item.projectName.startsWith(prefix));
+  if (!project) throw new Error(`Unknown project: ${prefix}`);
+  return project;
+};
+
+const services = [
+  {
+    tier: "Custom Web Apps & SaaS",
+    title: "From MVP to production-ready platform",
+    text: "React / Next.js frontends with Spring Boot, .NET or Node.js backends — auth, payments, wallets, dashboards and admin panels, deployed on your VPS or cloud.",
+    points: ["MVP & SaaS builds", "Role-based access & payments", "REST API & database design", "Deploy, backups & monitoring"],
+    proof: ["Gioi Truyen – Web Novel", "Mini LMS", "Atlantis"],
+    cta: "Plan my web app",
+    featured: true,
+  },
+  {
+    tier: "ERP, CRM & Business Systems",
+    title: "Internal tools that replace spreadsheets",
+    text: "Customer, order, scheduling, inventory, invoicing and payroll systems shaped around how your team actually works — with Excel import so nothing is retyped.",
+    points: ["CRM, ERP & booking systems", "Dispatch, invoices & reports", "Excel / CSV import & export", "Long-term maintenance"],
+    proof: ["AquaCare CRM", "DentalPro"],
+    cta: "Automate my workflow",
+  },
+  {
+    tier: "Landing Pages & Business Websites",
+    title: "Fast, conversion-focused sites",
+    text: "WordPress, Elementor, Webflow or hand-coded sites built from your Figma or my design, with motion, on-page SEO and Core Web Vitals in mind.",
+    points: ["Landing pages & company sites", "Figma → pixel-accurate code", "SEO & performance", "Bilingual VN / EN"],
+    proof: ["Brilliance Imaging", "Joe Hoang", "Indochine Thai Nguyen Hotel"],
+    cta: "See pricing",
+    href: "#pricing",
+  },
+  {
+    tier: "E-commerce & Booking",
+    title: "Sell, rent or book online",
+    text: "WooCommerce shops and custom carts, rental and booking flows, coin wallets and paid content — plus the admin side to manage orders.",
+    points: ["Online shops & catalogs", "Rental / booking flows", "Paid content & virtual currency", "Order management"],
+    proof: ["BotanicLane", "StageSound", "WordPress Paid-Chapter"],
+    cta: "Start my store",
+  },
+  {
+    tier: "Desktop Apps, AI & Data",
+    title: "Beyond the browser",
+    text: "C# WinForms / .NET desktop apps on SQL Server, data dashboards and AI features such as speech-to-text, LLM grading and text-to-speech.",
+    points: ["C# WinForms & .NET desktop apps", "SQL Server, stored procedures", "AI integrations (Whisper, Gemini, TTS)", "Data dashboards & ML"],
+    proof: ["Internship Management", "Mini LMS", "Rabies Surveillance"],
+    cta: "Discuss my idea",
+  },
+  {
+    tier: "Mentoring & Student Projects",
+    title: "Learn by building real software",
+    text: "1-on-1 or group coaching in JavaScript, Java, Python, C#, React and SQL, plus guidance for coursework, capstones and reports — with clean architecture and tests.",
+    points: ["Programming tutoring", "Coursework & capstone guidance", "Code review & debugging", "Flexible online schedule"],
+    proof: ["Internship Management", "LibraryMS", "Netflix User Segmentation"],
+    cta: "Book a session",
+  },
+].map((service) => ({ ...service, proof: service.proof.map(findProject) }));
 ---
 <BaseLayout title={meta.title} description={meta.description} url={meta.url}>
   <header class="pointer-events-none absolute inset-x-0 top-0 z-20 mx-auto flex w-[min(1120px,92vw)] justify-center pt-6">
     <nav class="nav-glow pointer-events-auto flex flex-wrap items-center gap-6 rounded-full border border-white/20 bg-white/90 px-8 py-3 text-sm font-semibold text-ink-2 shadow-[0_16px_40px_rgba(20,16,40,0.12)] dark:border-white/10 dark:bg-white/5 dark:text-white">
       <a href="#about">About</a>
       <a href="#services">Services</a>
+      <a href="#work">Work</a>
       <a href="#projects">Projects</a>
       <a href="#skills">Skills</a>
       <a href="#portfolio">Library</a>
@@ -196,92 +259,119 @@ const templateProjects = projectLibrary.filter((project) => project.deliveryType
 
   <section id="services" class="py-16">
     <div class="mx-auto w-[min(1120px,92vw)]">
-      <h2 class="section-title font-display text-[clamp(1.9rem,3.2vw,2.7rem)] text-ink-2 dark:text-white">
+      <p class="text-xs font-semibold uppercase tracking-[0.3em] text-[#6f5fd4] dark:text-lavender-2">What I can build for you</p>
+      <h2 class="section-title mt-3 font-display text-[clamp(1.9rem,3.2vw,2.7rem)] text-ink-2 dark:text-white">
         Services
       </h2>
-      <div class="mt-8 grid gap-6 md:grid-cols-3 items-stretch">
-        <article class="pricing-card reveal" style="--delay: 80ms;">
-          <div class="pricing-tier text-[#6f5fd4]">Websites &amp; WebApps</div>
-          <h3 class="mt-4 text-lg font-semibold text-ink-2 dark:text-white">
-            Landing pages &amp; conversion-focused sites
-          </h3>
-          <p class="mt-4 text-sm text-muted dark:text-slate-200">
-            High-conversion landing pages and marketing sites with motion, SEO structure, and performance built in
-            for startups and founders.
-          </p>
-          <ul class="mt-5 grid gap-2 text-sm text-muted dark:text-slate-200">
-            <li>Landing pages &amp; WebApps</li>
-            <li>SaaS / MVP builds</li>
-            <li>Motion &amp; light 3D</li>
-            <li>SEO &amp; Core Web Vitals</li>
-          </ul>
-          <div class="mt-auto pt-6">
-            <a class="pricing-cta" href="#pricing">See pricing</a>
-          </div>
-        </article>
-
-        <article class="pricing-card featured reveal" style="--delay: 160ms;">
-          <div class="pricing-badge">Business Systems</div>
-          <div class="pricing-card__inner">
-            <div class="pricing-tier text-[#6f5fd4]">Enterprise Solutions</div>
-            <h3 class="mt-4 text-lg font-semibold text-ink-2 dark:text-white">
-              ERP, CRM &amp; custom business systems
-            </h3>
-            <p class="mt-4 text-sm text-muted dark:text-slate-200">
-              End-to-end enterprise systems built for scale and security — API design, database architecture, and
-              long-term maintenance included.
-            </p>
-            <ul class="mt-5 grid gap-2 text-sm text-muted dark:text-slate-200">
-              <li>ERP &amp; CRM systems</li>
-              <li>Logistics, Finance &amp; Tracking</li>
-              <li>Booking &amp; E-commerce platforms</li>
-              <li>API &amp; database architecture</li>
-            </ul>
-            <div class="mt-auto pt-6">
-              <a class="pricing-cta" href="#contact">Discuss your project</a>
-            </div>
-          </div>
-        </article>
-
-        <article class="pricing-card reveal" style="--delay: 240ms;">
-          <div class="pricing-tier text-[#6f5fd4]">Mentoring</div>
-          <h3 class="mt-4 text-lg font-semibold text-ink-2 dark:text-white">
-            Programming tutoring &amp; assignment help
-          </h3>
-          <p class="mt-4 text-sm text-muted dark:text-slate-200">
-            1-on-1 or group coaching in JavaScript, Java, Python, C#, React and more — plus hands-on help with
-            coursework and assignments for students.
-          </p>
-          <ul class="mt-5 grid gap-2 text-sm text-muted dark:text-slate-200">
-            <li>Programming language tutoring</li>
-            <li>Student assignment &amp; project help</li>
-            <li>Code review &amp; debugging sessions</li>
-            <li>Flexible online scheduling</li>
-          </ul>
-          <div class="mt-auto pt-6">
-            <a class="pricing-cta" href="#contact">Book a session</a>
-          </div>
-        </article>
+      <p class="mt-4 max-w-2xl text-muted dark:text-slate-200">
+        Six ways I help businesses and students ship software. Every service below is backed by real projects —
+        tap a project name to see its screenshots.
+      </p>
+      <div class="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3 items-stretch">
+        {services.map((service, index) => {
+          const body = (
+            <>
+              <div class="pricing-tier text-[#6f5fd4]">{service.tier}</div>
+              <h3 class="mt-4 text-lg font-semibold text-ink-2 dark:text-white">{service.title}</h3>
+              <p class="mt-4 text-sm text-muted dark:text-slate-200">{service.text}</p>
+              <ul class="mt-5 grid gap-2 text-sm text-muted dark:text-slate-200">
+                {service.points.map((point) => <li>{point}</li>)}
+              </ul>
+              <div class="service-proof">
+                <span>Proof</span>
+                {service.proof.map((project) => (
+                  <button type="button" data-open-project={project.projectName}>
+                    {project.projectName.split(" – ")[0]}
+                  </button>
+                ))}
+              </div>
+              <div class="mt-auto pt-6">
+                <a class="pricing-cta" href={service.href ?? "#contact"}>{service.cta}</a>
+              </div>
+            </>
+          );
+          return service.featured ? (
+            <article class="pricing-card featured reveal" style={`--delay: ${80 + index * 60}ms;`}>
+              <div class="pricing-badge">Most requested</div>
+              <div class="pricing-card__inner">{body}</div>
+            </article>
+          ) : (
+            <article class="pricing-card reveal" style={`--delay: ${80 + index * 60}ms;`}>{body}</article>
+          );
+        })}
+      </div>
+      <div class="service-strip reveal" style="--delay: 200ms;">
+        <p>
+          <strong>Also available:</strong> bug fixing on live sites, WordPress / PHP customization, VPS deployment,
+          backups and ongoing maintenance.
+        </p>
+        <a class="pricing-cta" href="#contact">Get a free scope call</a>
       </div>
     </div>
   </section>
 
-
+  <section id="work" class="py-16">
+    <div class="mx-auto w-[min(1120px,92vw)]">
+      <p class="text-xs font-semibold uppercase tracking-[0.3em] text-[#6f5fd4] dark:text-lavender-2">Case studies</p>
+      <h2 class="section-title mt-3 font-display text-[clamp(1.9rem,3.2vw,2.7rem)] text-ink-2 dark:text-white">
+        Featured Work
+      </h2>
+      <div class="mt-10 grid gap-16">
+        {featuredProjects.map((project, index) => (
+          <article class={`case reveal ${index % 2 ? "is-flipped" : ""}`} style="--delay: 80ms;">
+            <button type="button" class="case__shot" data-open-project={project.projectName} aria-label={`View screenshots of ${project.projectName}`}>
+              <span class="case__bar" aria-hidden="true"><i></i><i></i><i></i></span>
+              <img src={project.imageUrl} alt={`${project.projectName} screenshot`} loading="lazy" decoding="async" />
+              {project.gallery && project.gallery.length > 1 ? (
+                <span class="case__count">{project.gallery.length} screenshots</span>
+              ) : null}
+            </button>
+            <div class="case__body">
+              <div class="case__meta">
+                {project.service ? <span class="case__service">{project.service}</span> : null}
+                {project.status ? <span class="case__status">{project.status}</span> : null}
+              </div>
+              <h3 class="mt-3 font-display text-2xl text-ink-2 dark:text-white">{project.projectName}</h3>
+              <p class="mt-3 text-sm leading-relaxed text-muted dark:text-slate-200">{project.description}</p>
+              {project.highlights ? (
+                <ul class="case__highlights">
+                  {project.highlights.map((item) => <li>{item}</li>)}
+                </ul>
+              ) : null}
+              <div class="case__tech">
+                {project.technologies.map((tech) => <span>{tech}</span>)}
+              </div>
+              <div class="mt-6 flex flex-wrap items-center gap-4">
+                <button type="button" class="pricing-cta !mt-0" data-open-project={project.projectName}>View screenshots</button>
+                {project.websiteURL ? (
+                  <a class="case__link" href={project.websiteURL} target="_blank" rel="noreferrer">Visit live site →</a>
+                ) : null}
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
 
   <section id="projects" class="py-16">
     <div class="mx-auto w-[min(1120px,92vw)]">
       <h2 class="section-title font-display text-[clamp(1.9rem,3.2vw,2.7rem)] text-ink-2 dark:text-white">
-        Completed Projects
+        All Projects
       </h2>
+      <p class="mt-4 max-w-2xl text-muted dark:text-slate-200">
+        Client work, products and academic builds — pick a card to see screenshots, highlights and the stack.
+      </p>
       <div id="project-tabs" class="mt-6 flex flex-wrap gap-3 text-xs font-semibold uppercase tracking-[0.2em] text-ink-2 dark:text-white">
         <button class="project-tab is-active" type="button" data-filter="All">All</button>
+        <button class="project-tab" type="button" data-filter="Web App">Web App</button>
         <button class="project-tab" type="button" data-filter="Business">Business</button>
         <button class="project-tab" type="button" data-filter="E-commerce">E-commerce</button>
         <button class="project-tab" type="button" data-filter="Creative">Creative</button>
-        <button class="project-tab" type="button" data-filter="Game">Game</button>
+        <button class="project-tab" type="button" data-filter="Academic">Academic</button>
       </div>
       <div id="project-gallery" class="mt-8">
-        <ProjectShowcase projects={doneProjects} />
+        <ProjectShowcase projects={deckProjects} />
       </div>
     </div>
   </section>
@@ -340,6 +430,14 @@ const templateProjects = projectLibrary.filter((project) => project.deliveryType
         </h3>
         <div class="mt-6">
           <ProjectLibrary projects={doneProjects} />
+        </div>
+      </div>
+      <div class="mt-12">
+        <h3 class="text-xs font-semibold uppercase tracking-[0.3em] text-muted dark:text-slate-300">
+          Academic &amp; Learning Projects
+        </h3>
+        <div class="mt-6">
+          <ProjectLibrary projects={academicProjects} showLinks={false} />
         </div>
       </div>
       <div class="mt-12">
