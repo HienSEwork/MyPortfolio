@@ -183,20 +183,37 @@ export default function HeroMotion() {
       className="hero-cinematic relative h-[100svh] min-h-[640px] w-full overflow-hidden"
       aria-label="Hien Nguyen Ngoc hero"
     >
-      {/* Layer 0 — deep background */}
-      <div
-        ref={bgRef}
-        className="absolute inset-0"
-        style={{
-          background:
-            "radial-gradient(120% 90% at 50% 0%, #1a1330 0%, #0b0818 45%, #050409 100%)",
-        }}
-      />
+      {/* Layer 0 — background: pastel daybreak (light) cross-fades with deep night (dark) */}
+      <div ref={bgRef} className="absolute inset-0">
+        <div
+          className="absolute inset-0 transition-opacity duration-700 dark:opacity-0"
+          style={{
+            background:
+              "radial-gradient(120% 90% at 50% 0%, #fdfbff 0%, #f3edff 42%, #e4f3ff 100%)",
+          }}
+        />
+        <div className="hero-aurora transition-opacity duration-700 dark:opacity-0" aria-hidden />
+        <div className="hero-aurora hero-aurora--b transition-opacity duration-700 dark:opacity-0" aria-hidden />
+        <div
+          className="absolute inset-0 opacity-0 transition-opacity duration-700 dark:opacity-100"
+          style={{
+            background:
+              "radial-gradient(120% 90% at 50% 0%, #1a1330 0%, #0b0818 45%, #050409 100%)",
+          }}
+        />
+      </div>
 
-      {/* Layer 1 — starfield parallax */}
+      {/* Layer 1 — starfield parallax (night) / floating dust (day) */}
       <div ref={registerLayer(4)} className="absolute inset-0">
         <div
-          className="absolute inset-0 opacity-70"
+          className="absolute inset-0 opacity-60 transition-opacity duration-700 dark:opacity-0"
+          style={{
+            backgroundImage:
+              "radial-gradient(2px 2px at 18% 32%, rgba(111,95,212,0.35) 0, transparent 60%), radial-gradient(2px 2px at 72% 58%, rgba(56,160,220,0.3) 0, transparent 60%), radial-gradient(1.5px 1.5px at 42% 82%, rgba(111,95,212,0.3) 0, transparent 60%), radial-gradient(2.5px 2.5px at 86% 22%, rgba(224,150,60,0.35) 0, transparent 60%), radial-gradient(1.5px 1.5px at 92% 76%, rgba(111,95,212,0.25) 0, transparent 60%)",
+          }}
+        />
+        <div
+          className="absolute inset-0 opacity-0 transition-opacity duration-700 dark:opacity-70"
           style={{
             backgroundImage:
               "radial-gradient(1px 1px at 20% 30%, rgba(245,242,255,0.35) 0, transparent 60%), radial-gradient(1px 1px at 70% 60%, rgba(245,242,255,0.25) 0, transparent 60%), radial-gradient(1px 1px at 40% 80%, rgba(245,242,255,0.3) 0, transparent 60%), radial-gradient(1.5px 1.5px at 85% 20%, rgba(245,242,255,0.4) 0, transparent 60%), radial-gradient(1px 1px at 92% 75%, rgba(245,242,255,0.25) 0, transparent 60%)",
@@ -207,13 +224,13 @@ export default function HeroMotion() {
       {/* Layer 2 — atmosphere glow blobs */}
       <div ref={registerLayer(8)} className="absolute inset-0">
         <div className="absolute inset-0" ref={atmosphereRef}>
-          <div className="anim-breathe absolute -left-24 top-[8%] h-[38vw] w-[38vw] rounded-full bg-[#7e68d4]/30 blur-[100px]" />
+          <div className="anim-breathe absolute -left-24 top-[8%] h-[38vw] w-[38vw] rounded-full bg-[#b9a6ff]/40 blur-[100px] dark:bg-[#7e68d4]/30" />
           <div
-            className="anim-breathe absolute -right-16 bottom-[6%] h-[34vw] w-[34vw] rounded-full bg-[#7dd3fc]/20 blur-[110px]"
+            className="anim-breathe absolute -right-16 bottom-[6%] h-[34vw] w-[34vw] rounded-full bg-[#9fdcff]/40 blur-[110px] dark:bg-[#7dd3fc]/20"
             style={{ animationDelay: "1.5s" }}
           />
           <div
-            className="anim-breathe absolute left-1/2 top-1/3 h-[22vw] w-[22vw] -translate-x-1/2 rounded-full bg-[#f4c76a]/15 blur-[90px]"
+            className="anim-breathe absolute left-1/2 top-1/3 h-[22vw] w-[22vw] -translate-x-1/2 rounded-full bg-[#ffd9a8]/40 blur-[90px] dark:bg-[#f4c76a]/15"
             style={{ animationDelay: "3s" }}
           />
         </div>
@@ -221,11 +238,11 @@ export default function HeroMotion() {
 
       {/* Layer 3 — drifting rings */}
       <div ref={registerLayer(14)} className="pointer-events-none absolute inset-0 flex items-center justify-center">
-        <svg className="anim-drift absolute h-[70vmin] w-[70vmin] opacity-25" viewBox="0 0 400 400" fill="none">
+        <svg className="anim-drift absolute h-[70vmin] w-[70vmin] opacity-40 dark:opacity-25" viewBox="0 0 400 400" fill="none">
           <circle cx="200" cy="200" r="196" stroke="#bfa8ff" strokeWidth="0.5" strokeDasharray="2 10" />
           <circle cx="200" cy="200" r="150" stroke="#7dd3fc" strokeWidth="0.5" strokeDasharray="1 6" />
         </svg>
-        <svg className="anim-drift-rev absolute h-[46vmin] w-[46vmin] opacity-20" viewBox="0 0 400 400" fill="none">
+        <svg className="anim-drift-rev absolute h-[46vmin] w-[46vmin] opacity-40 dark:opacity-20" viewBox="0 0 400 400" fill="none">
           <circle cx="200" cy="200" r="198" stroke="#f4c76a" strokeWidth="0.6" strokeDasharray="0.5 8" />
         </svg>
       </div>
@@ -236,7 +253,7 @@ export default function HeroMotion() {
           <div ref={artworkRef} className="anim-float-a select-none">
             <span
               className="font-display block whitespace-nowrap text-center leading-[0.8] text-transparent"
-              style={{ fontSize: "clamp(6rem, 32vw, 26rem)", WebkitTextStroke: "1.5px rgba(245,242,255,0.1)" }}
+              style={{ fontSize: "clamp(6rem, 32vw, 26rem)", WebkitTextStroke: "1.5px var(--hero-stroke)" }}
               aria-hidden
             >
               HIEN
@@ -246,7 +263,7 @@ export default function HeroMotion() {
 
         <div className="absolute inset-0 z-10 flex flex-col items-center justify-center px-6 text-center">
           <div ref={registerLayer(5)} className="flex flex-col items-center">
-            <h1 className="font-display leading-[0.85] text-white text-balance">
+            <h1 className="font-display leading-[0.85] text-ink text-balance dark:text-white">
               <span className="block overflow-hidden">
                 <span ref={line1Ref} className="block text-[clamp(2.6rem,8vw,6rem)]">
                   FULLSTACK
@@ -255,16 +272,16 @@ export default function HeroMotion() {
               <span className="block overflow-hidden">
                 <span
                   ref={line2Ref}
-                  className="block bg-gradient-to-r from-[#8b74ff] via-[#f4c76a] to-[#7dd3fc] bg-clip-text text-[clamp(2.6rem,8vw,6rem)] text-transparent"
+                  className="block bg-gradient-to-r from-[#6f5fd4] via-[#d9912b] to-[#1f9bd1] bg-clip-text text-[clamp(2.6rem,8vw,6rem)] text-transparent dark:from-[#8b74ff] dark:via-[#f4c76a] dark:to-[#7dd3fc]"
                 >
                   WEB DEVELOPER
                 </span>
               </span>
             </h1>
 
-            <div ref={metaRef} className="mt-6 flex flex-wrap items-center justify-center gap-4 font-mono text-xs uppercase tracking-[0.35em] text-white/60 sm:text-sm">
+            <div ref={metaRef} className="mt-6 flex flex-wrap items-center justify-center gap-4 font-mono text-xs uppercase tracking-[0.35em] text-ink/60 dark:text-white/60 sm:text-sm">
               <span>WebApps · Enterprise Systems · Mentoring</span>
-              <span className="h-3 w-px bg-white/25" aria-hidden />
+              <span className="h-3 w-px bg-ink/25 dark:bg-white/25" aria-hidden />
               <span>Remote — Worldwide</span>
             </div>
 
@@ -272,12 +289,12 @@ export default function HeroMotion() {
               <MagneticButton href="#contact">Book a Free Call</MagneticButton>
               <a
                 href="#projects"
-                className="group inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.2em] text-white/80 transition-colors hover:text-white"
+                className="group inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.2em] text-ink/80 transition-colors hover:text-ink dark:text-white/80 dark:hover:text-white"
               >
                 View Projects
                 <span
                   aria-hidden
-                  className="inline-block h-px w-6 bg-white/50 transition-all duration-300 group-hover:w-9 group-hover:bg-white"
+                  className="inline-block h-px w-6 bg-ink/50 transition-all duration-300 group-hover:w-9 group-hover:bg-ink dark:bg-white/50 dark:group-hover:bg-white"
                 />
               </a>
             </div>
@@ -290,14 +307,14 @@ export default function HeroMotion() {
         <span className="anim-float-b absolute left-[8%] top-[22%] h-2 w-2 rounded-full bg-[#bfa8ff]/80 shadow-[0_0_16px_4px_rgba(191,168,255,0.5)]" />
         <span className="anim-float-c absolute right-[12%] top-[30%] h-3 w-3 rotate-45 bg-[#7dd3fc]/70" />
         <span className="anim-float-b absolute right-[18%] bottom-[24%] h-1.5 w-1.5 rounded-full bg-[#f4c76a]/90 shadow-[0_0_14px_4px_rgba(244,199,106,0.5)]" />
-        <span className="anim-float-c absolute left-[16%] bottom-[20%] h-2 w-2 rotate-45 bg-white/60" />
+        <span className="anim-float-c absolute left-[16%] bottom-[20%] h-2 w-2 rotate-45 bg-[#6f5fd4]/50 dark:bg-white/60" />
       </div>
 
       {/* Grain */}
       <div className="grain" />
 
       {/* Scroll cue */}
-      <div className="absolute bottom-6 left-1/2 z-10 -translate-x-1/2 text-white/50">
+      <div className="absolute bottom-6 left-1/2 z-10 -translate-x-1/2 text-ink/50 dark:text-white/50">
         <div className="anim-bob flex flex-col items-center gap-2">
           <span className="text-[0.6rem] uppercase tracking-[0.3em]">Scroll</span>
           <span className="h-8 w-px bg-current opacity-60" />

@@ -129,6 +129,68 @@ const findProject = (prefix: string) => {
   return project;
 };
 
+const pricingPlans = [
+  {
+    tier: "Basic",
+    title: "Launch-ready landing page",
+    text: "A polished one-page site to validate an idea, promote a product or open bookings — live on your domain within a week.",
+    points: [
+      "1 custom landing page (up to 6 sections)",
+      "UI designed around your brand",
+      "Mobile-first, responsive layout",
+      "Hover & scroll motion",
+      "On-page SEO, meta & social previews",
+      "Contact form to email / Zalo",
+      "Deploy on your domain with SSL",
+      "1 revision round · 7-day support",
+    ],
+    priceLabel: "Starting from",
+    price: "$99",
+    delivery: "3–7 days",
+    cta: "Start with Basic",
+  },
+  {
+    tier: "Pro",
+    title: "Conversion-focused business website",
+    text: "A multi-page site or long-form sales page you can edit yourself, tuned for speed, SEO and turning visitors into leads.",
+    points: [
+      "Up to 6 pages or a long-form sales page",
+      "Figma design approved before coding",
+      "Advanced motion & light 3D",
+      "CMS / blog so you can edit content",
+      "Full on-page SEO + schema markup",
+      "Core Web Vitals 90+ on mobile",
+      "Lead forms, GA4 & Pixel tracking",
+      "Bilingual option (VN / EN)",
+      "2 revision rounds · 30-day support",
+    ],
+    priceLabel: "Starting from",
+    price: "$299",
+    delivery: "7–21 days",
+    cta: "Start with Pro",
+    featured: true,
+  },
+  {
+    tier: "Premium",
+    title: "Custom web app or 3D experience",
+    text: "When a website is not enough: accounts, dashboards, payments or an immersive 3D experience, engineered to scale.",
+    points: [
+      "Custom 3D / WebGL or interactive motion",
+      "User accounts, roles & admin panel",
+      "Payments, booking or e-commerce flows",
+      "Database, REST API & integrations",
+      "Funnel, copy structure & A/B test setup",
+      "Security & performance hardening",
+      "VPS / cloud deploy with backups",
+      "Handover docs · 60-day support",
+    ],
+    priceLabel: "From",
+    price: "$499 – $1,000+",
+    delivery: "14–60 days",
+    cta: "Plan my project",
+  },
+];
+
 const services = [
   {
     tier: "Custom Web Apps & SaaS",
@@ -423,74 +485,42 @@ const services = [
   <section id="pricing" class="py-16">
     <div class="mx-auto w-[min(1120px,92vw)]">
       <h2 class="section-title font-display text-[clamp(1.8rem,3vw,2.6rem)] text-ink-2 dark:text-white">
-        Landing Page &amp; WebApp Pricing
+        Website &amp; WebApp Pricing
       </h2>
       <p class="mt-4 max-w-2xl text-sm text-muted dark:text-slate-200">
-        Fixed-scope pricing for landing pages and WebApps. Enterprise systems and mentoring are quoted per project —
-        <a href="#contact" class="underline decoration-[#7e68d4]/50 underline-offset-4 hover:text-ink-2 dark:hover:text-white">get in touch</a> for a scope call.
+        Starting prices for fixed-scope projects. You get a written scope and a firm quote after a free call — no
+        surprises. ERP / CRM systems and mentoring are quoted separately,
+        <a href="#contact" class="underline decoration-[#7e68d4]/50 underline-offset-4 hover:text-ink-2 dark:hover:text-white">get in touch</a>.
       </p>
       <div class="mt-7 grid gap-6 md:grid-cols-3 items-stretch">
-        <article class="pricing-card reveal" style="--delay: 80ms;">
-          <div class="pricing-tier text-[#6f5fd4]">Basic</div>
-          <h3 class="mt-4 text-lg font-semibold text-ink-2 dark:text-white">
-            Fast start for MVP &amp; small launches
-          </h3>
-          <ul class="mt-5 grid gap-2 text-sm text-muted dark:text-slate-200">
-            <li>1 landing page</li>
-            <li>Clean UI design</li>
-            <li>Basic motion (hover / scroll)</li>
-            <li>Mobile responsive</li>
-            <li>Basic SEO</li>
-            <li>Deploy &amp; handoff</li>
-          </ul>
-          <div class="mt-auto pt-6">
-            <div class="text-2xl font-bold text-ink-2 dark:text-white">$45 - $125</div>
-            <div class="text-sm text-muted dark:text-slate-200">Delivery: 1-7 days</div>
-            <a class="pricing-cta" href="#contact">Start a project</a>
-          </div>
-        </article>
-
-        <article class="pricing-card featured reveal" style="--delay: 160ms;">
-          <div class="pricing-badge">Most Popular</div>
-          <div class="pricing-card__inner">
-            <div class="pricing-tier text-[#6f5fd4]">Pro</div>
-            <h3 class="mt-4 text-lg font-semibold text-ink-2 dark:text-white">
-              Conversion-focused landing for serious products
-            </h3>
-            <ul class="mt-5 grid gap-2 text-sm text-muted dark:text-slate-200">
-              <li>Conversion-optimized layout</li>
-              <li>Advanced motion &amp; light 3D</li>
-              <li>Full on-page SEO structure</li>
-              <li>Core Web Vitals optimization</li>
-              <li>Contact form &amp; analytics tracking</li>
-              <li>1 major + 2 minor revisions</li>
-            </ul>
-            <div class="mt-auto pt-6">
-              <div class="text-2xl font-bold text-ink-2 dark:text-white">$120 - $360</div>
-              <div class="text-sm text-muted dark:text-slate-200">Delivery: 7-21 days</div>
-              <a class="pricing-cta" href="#contact">Start a project</a>
-            </div>
-          </div>
-        </article>
-
-        <article class="pricing-card reveal" style="--delay: 240ms;">
-          <div class="pricing-tier text-[#6f5fd4]">Premium</div>
-          <h3 class="mt-4 text-lg font-semibold text-ink-2 dark:text-white">
-            Custom 3D motion &amp; scalable landing system
-          </h3>
-          <ul class="mt-5 grid gap-2 text-sm text-muted dark:text-slate-200">
-            <li>Custom 3D animation</li>
-            <li>Funnel &amp; copy structure</li>
-            <li>A/B testing concept</li>
-            <li>Advanced performance &amp; SEO</li>
-            <li>30-day post-launch support</li>
-          </ul>
-          <div class="mt-auto pt-6">
-            <div class="text-2xl font-bold text-ink-2 dark:text-white">$360 - $999</div>
-            <div class="text-sm text-muted dark:text-slate-200">Delivery: 14-60 days</div>
-            <a class="pricing-cta" href="#contact">Start a project</a>
-          </div>
-        </article>
+        {pricingPlans.map((plan, index) => {
+          const body = (
+            <>
+              <div class="pricing-tier text-[#6f5fd4]">{plan.tier}</div>
+              <h3 class="mt-4 text-lg font-semibold text-ink-2 dark:text-white">{plan.title}</h3>
+              <p class="mt-3 text-sm text-muted dark:text-slate-200">{plan.text}</p>
+              <ul class="mt-5 grid gap-2 text-sm text-muted dark:text-slate-200">
+                {plan.points.map((point) => <li>{point}</li>)}
+              </ul>
+              <div class="mt-auto pt-6">
+                <div class="text-xs font-semibold uppercase tracking-[0.2em] text-muted dark:text-slate-300">
+                  {plan.priceLabel}
+                </div>
+                <div class="mt-1 text-2xl font-bold text-ink-2 dark:text-white">{plan.price}</div>
+                <div class="text-sm text-muted dark:text-slate-200">Delivery: {plan.delivery}</div>
+                <a class="pricing-cta" href="#contact">{plan.cta}</a>
+              </div>
+            </>
+          );
+          return plan.featured ? (
+            <article class="pricing-card featured reveal" style={`--delay: ${80 + index * 80}ms;`}>
+              <div class="pricing-badge">Most Popular</div>
+              <div class="pricing-card__inner">{body}</div>
+            </article>
+          ) : (
+            <article class="pricing-card reveal" style={`--delay: ${80 + index * 80}ms;`}>{body}</article>
+          );
+        })}
       </div>
     </div>
   </section>

@@ -115,7 +115,64 @@ a {
 }
 
 .hero-cinematic {
+  --hero-stroke: rgba(42, 36, 64, 0.1);
+}
+
+html.dark .hero-cinematic {
   color-scheme: dark;
+  --hero-stroke: rgba(245, 242, 255, 0.1);
+}
+
+/* Light hero: slowly turning pastel aurora behind the title */
+.hero-aurora {
+  position: absolute;
+  inset: -35%;
+  background: conic-gradient(from 0deg at 50% 50%, #cbbcff, #ffd3e6, #ffe6b5, #bfeaff, #d9ccff, #cbbcff);
+  filter: blur(90px) saturate(1.1);
+  opacity: 0.7;
+  animation: aurora-spin 45s linear infinite;
+  pointer-events: none;
+}
+
+.hero-aurora--b {
+  inset: -10%;
+  background:
+    radial-gradient(40% 35% at 25% 30%, rgba(167, 139, 250, 0.45), transparent 70%),
+    radial-gradient(35% 30% at 75% 65%, rgba(125, 211, 252, 0.45), transparent 70%),
+    radial-gradient(30% 25% at 60% 20%, rgba(255, 196, 140, 0.4), transparent 70%);
+  filter: blur(40px);
+  opacity: 0.9;
+  animation: aurora-drift 18s ease-in-out infinite alternate;
+}
+
+html.dark .hero-aurora {
+  opacity: 0;
+}
+
+@keyframes aurora-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes aurora-drift {
+  0% {
+    transform: translate3d(-3%, -2%, 0) scale(1);
+  }
+  100% {
+    transform: translate3d(4%, 3%, 0) scale(1.08);
+  }
+}
+
+html:not(.dark) .hero-cinematic .grain {
+  opacity: 0.12;
+  mix-blend-mode: multiply;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-aurora {
+    animation: none;
+  }
 }
 
 .hero-cinematic .grain {
@@ -824,12 +881,65 @@ html.dark .case__link {
   text-align: left;
   border-radius: 20px;
   overflow: hidden;
-  border: 1px solid rgba(20, 16, 40, 0.1);
+  border: 0;
   background: #fff;
   box-shadow: 0 14px 34px rgba(20, 16, 40, 0.1);
   cursor: pointer;
   animation: pcard-in 0.45s ease both;
   transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.35s ease, border-color 0.35s ease;
+}
+
+/* Animated 7-colour border: starts at neon green, spins clockwise and keeps shifting hue */
+@property --pc-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+.pcard {
+  position: relative;
+}
+
+.pcard::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  border-radius: inherit;
+  padding: 2px;
+  background: conic-gradient(
+    from var(--pc-angle),
+    #39ff14,
+    #00f5ff,
+    #3d7bff,
+    #b14dff,
+    #ff2bd6,
+    #ff8a00,
+    #ffe600,
+    #39ff14
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: pcard-spin 6s linear infinite, pcard-hue 14s linear infinite;
+  pointer-events: none;
+}
+
+.pcard:hover::before {
+  padding: 2.5px;
+  animation-duration: 3s, 14s;
+}
+
+@keyframes pcard-spin {
+  to {
+    --pc-angle: 360deg;
+  }
+}
+
+@keyframes pcard-hue {
+  to {
+    filter: hue-rotate(360deg);
+  }
 }
 
 .pcard[hidden] {
@@ -1009,6 +1119,7 @@ html.dark .pcard__tech span {
 
 @media (prefers-reduced-motion: reduce) {
   .pcard,
+  .pcard::before,
   .pcard__media > img {
     animation: none;
     transition: none;

@@ -27,6 +27,14 @@ import LightweightBackground from "../LightweightBackground.astro";
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={image} />
+    <script is:inline>
+      // Apply the saved theme before first paint (dark is the default) so the hero never flashes
+      try {
+        if (localStorage.getItem("theme") !== "light") document.documentElement.classList.add("dark");
+      } catch {
+        document.documentElement.classList.add("dark");
+      }
+    </script>
   </head>
   <body class="antialiased">
     <div class="fixed inset-0 z-0 opacity-90">
